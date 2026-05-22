@@ -1,0 +1,101 @@
+---
+interface Props {
+    projectDetails?: string
+}
+const { projectDetails = "Project Details" } = Astro.props
+---
+
+<nav>
+    <a href="/">BAONGOC</a>
+    <a href="#" id="details-btn">{projectDetails}</a>
+    <a href="#" id="info-btn">Information</a>
+</nav>
+
+<style>
+    nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 30px;
+        z-index: 9999;
+        pointer-events: none;
+    }
+
+    a {
+        position: absolute;
+        font-family: 'Coordinates Variable', sans-serif;
+        font-size: 10px;
+        font-weight: 300;
+        letter-spacing: 0em;
+        line-height: 12px;
+        color: rgb(116, 116, 116);
+        text-decoration: none;
+        pointer-events: auto;
+        top: 10px;
+    }
+
+    a:first-child {
+        left: 10px;
+    }
+
+    a:nth-child(2) {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    a:last-child {
+        right: 10px;
+    }
+</style>
+
+<script>
+    const infoBtn = document.getElementById("info-btn")
+    const detailsBtn = document.getElementById("details-btn")
+    let infoOpen = false
+    let detailsOpen = false
+
+    infoBtn?.addEventListener("click", (e) => {
+        e.preventDefault()
+        if (detailsOpen) {
+            detailsOpen = false
+            if (detailsBtn) detailsBtn.textContent = "Project Details"
+            window.dispatchEvent(new Event("projectdetailsclose"))
+        }
+        infoOpen = !infoOpen
+        if (infoOpen) {
+            infoBtn.textContent = "Close"
+            window.dispatchEvent(new Event("infoopen"))
+        } else {
+            infoBtn.textContent = "Information"
+            window.dispatchEvent(new Event("infoclose"))
+        }
+    })
+
+    detailsBtn?.addEventListener("click", (e) => {
+        e.preventDefault()
+        if (infoOpen) {
+            infoOpen = false
+            if (infoBtn) infoBtn.textContent = "Information"
+            window.dispatchEvent(new Event("infoclose"))
+        }
+        detailsOpen = !detailsOpen
+        if (detailsOpen) {
+            detailsBtn.textContent = "Close"
+            window.dispatchEvent(new Event("projectdetailsopen"))
+        } else {
+            detailsBtn.textContent = "Project Details"
+            window.dispatchEvent(new Event("projectdetailsclose"))
+        }
+    })
+
+    window.addEventListener("infoclose", () => {
+        infoOpen = false
+        if (infoBtn) infoBtn.textContent = "Information"
+    })
+
+    window.addEventListener("projectdetailsclose", () => {
+        detailsOpen = false
+        if (detailsBtn) detailsBtn.textContent = "Project Details"
+    })
+</script>

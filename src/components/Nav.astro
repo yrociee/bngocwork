@@ -1,0 +1,54 @@
+---
+---
+
+<nav>
+    <a href="/">BAONGOC</a>
+    <a href="#" id="info-btn">Information</a>
+</nav>
+
+<style>
+    nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        z-index: 1000;
+        pointer-events: none;
+    }
+
+    a {
+        font-family: 'Coordinates Variable', sans-serif;
+        font-size: 10px;
+        font-weight: 300;
+        letter-spacing: 0em;
+        line-height: 12px;
+        color: rgb(116, 116, 116);
+        text-decoration: none;
+        pointer-events: auto;
+    }
+</style>
+
+<script>
+    const btn = document.getElementById("info-btn")
+    let open = false
+    btn?.addEventListener("click", (e) => {
+        e.preventDefault()
+        open = !open
+        if (open) {
+            btn.textContent = "Close"
+            window.dispatchEvent(new Event("infoopen"))
+        } else {
+            btn.textContent = "Information"
+            window.dispatchEvent(new Event("infoclose"))
+        }
+    })
+
+    window.addEventListener("infoclose", () => {
+        open = false
+        if (btn) btn.textContent = "Information"
+    })
+</script>
