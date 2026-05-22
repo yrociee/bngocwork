@@ -146,7 +146,7 @@ export default function ScrollGallery_Riel() {
                         {item.type === "image" ? (
                             <img src={item.src} style={{ width: "100%", height: "100%", objectFit: (item as any).fit ?? "contain", pointerEvents: "none", userSelect: "none", display: "block" }} />
                         ) : (
-                            <video ref={(el) => { if (el) videoRefs.current[i] = el }} src={item.src} loop muted playsInline style={{ width: "100%", height: "100%", objectFit: (item as any).fit ?? "contain", pointerEvents: "none", display: "block" }} />
+                            <video ref={(el) => { if (el) videoRefs.current[i] = el }} src={item.src} loop muted playsInline preload="auto" style={{ width: "100%", height: "100%", objectFit: "cover", pointerEvents: "none", display: "block" }} />
                         )}
                     </div>
                 ))}
