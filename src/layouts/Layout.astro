@@ -61,11 +61,11 @@ const { title } = Astro.props
             }
 
             body {
-                animation: fadeIn 0.4s ease forwards;
+                animation: fadeIn 0.2s ease forwards;
             }
 
             .page-transition-out {
-                animation: fadeOut 0.3s ease forwards;
+                animation: fadeOut 0.15s ease forwards;
             }
 
             @keyframes fadeOut {
@@ -87,7 +87,7 @@ const { title } = Astro.props
                 document.body.classList.add("page-transition-out")
                 setTimeout(() => {
                     window.location.href = href
-                }, 300)
+                }, 150)
             })
         </script>
     </body>
