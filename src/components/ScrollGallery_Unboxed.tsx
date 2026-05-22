@@ -51,7 +51,7 @@ export default function ScrollGallery_Unboxed() {
     useEffect(() => {
         videoRefs.current.forEach((v, i) => {
             if (!v) return
-            if (i === current) { v.currentTime = 0; v.play() }
+            if (i === current) { v.currentTime = 0; v.load(); v.play() }
             else { v.pause(); v.currentTime = 0 }
         })
     }, [current])
