@@ -63,6 +63,17 @@ export default function ScrollGallery_Riel() {
     }, [current])
 
     useEffect(() => {
+        const unlockVideo = () => {
+            const v = videoRefs.current.find((v) => v)
+            if (!v) return
+            v.load()
+            v.play().catch(() => {})
+        }
+        window.addEventListener("touchstart", unlockVideo, { once: true })
+        return () => window.removeEventListener("touchstart", unlockVideo)
+    }, [])
+
+    useEffect(() => {
         const onReset = () => setCurrent(0)
         window.addEventListener("scrollgallery_reset", onReset)
         return () => window.removeEventListener("scrollgallery_reset", onReset)
