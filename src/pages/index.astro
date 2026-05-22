@@ -1,4 +1,5 @@
 ---
+import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import InfoOverlay from '../components/InfoOverlay.tsx';
 import SelectedWork from '../components/SelectedWork.tsx';
@@ -6,59 +7,20 @@ import SelectedWork_Mobile_Images from '../components/SelectedWork_Mobile_Images
 import SelectedWork_Mobile_Labels from '../components/SelectedWork_Mobile_Labels.tsx';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bao Ngoc</title>
+<Layout title="Bao Ngoc">
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      body { background: #fff; }
-
-      @font-face {
-        font-family: 'Romie';
-        src: url('/fonts/Romie-Regular.woff2') format('woff2'),
-             url('/fonts/Romie-Regular.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      @font-face {
-        font-family: 'Coordinates Variable';
-        src: url('/fonts/Coordinates Variables .otf') format('opentype');
-        font-weight: normal;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      .desktop-only { display: block; }
-      .mobile-only { display: none; }
-
-      @media (max-width: 808px) {
-        .desktop-only { display: none; }
-        .mobile-only { display: block; }
-      }
+        body { background: #fff; }
     </style>
-  </head>
-  <body>
+
     <Nav />
     <InfoOverlay client:load />
 
-    <div class="desktop-only">
-      <SelectedWork client:load />
+    <div class="desktop">
+        <SelectedWork client:load />
     </div>
-
-    <div class="mobile-only">
-      <SelectedWork_Mobile_Images client:load />
+    <div class="mobile">
+        <SelectedWork_Mobile_Images client:load />
     </div>
 
     <SelectedWork_Mobile_Labels client:load />
-  </body>
-</html>
+</Layout>
