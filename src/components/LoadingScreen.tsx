@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react"
 
 export default function LoadingScreen() {
-    const [visible, setVisible] = useState(true)
-    const [fading, setFading] = useState(false)
+    const [phase, setPhase] = useState<"visible" | "fading" | "gone">("visible")
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setFading(true)
+        // Stay fully visible for 2s, then fade out over 0.8s
+        const fadeTimer = setTimeout(() => {
+            setPhase("fading")
             setTimeout(() => {
-                setVisible(false)
+                setPhase("gone")
                 window.dispatchEvent(new Event("loadingdone"))
                 localStorage.setItem("loading", "false")
             }, 800)
-        }, 1200)
-        return () => clearTimeout(timer)
+        }, 2000)
+        return () => clearTimeout(fadeTimer)
     }, [])
 
-    if (!visible) return null
+    if (phase === "gone") return null
 
     return (
         <div style={{
@@ -30,9 +30,9 @@ export default function LoadingScreen() {
             alignItems: "center",
             justifyContent: "center",
             zIndex: 9999,
-            opacity: fading ? 0 : 1,
-            transition: "opacity 0.8s ease",
-            pointerEvents: fading ? "none" : "auto",
+            opacity: phase === "fading" ? 0 : 1,
+            transition: phase === "fading" ? "opacity 0.8s ease" : "none",
+            pointerEvents: phase === "fading" ? "none" : "auto",
         }}>
             <p style={{
                 fontFamily: "Romie, serif",
@@ -41,8 +41,6 @@ export default function LoadingScreen() {
                 letterSpacing: "0.02em",
                 color: "#000",
                 margin: 0,
-                opacity: fading ? 0 : 1,
-                transition: "opacity 0.8s ease",
                 fontFeatureSettings: '"liga" 1, "calt" 1, "dlig" 1, "swsh" 1',
             }}>
                 BAONGOC
