@@ -5,6 +5,7 @@ import InfoOverlay from '../components/InfoOverlay.tsx';
 import SelectedWork from '../components/SelectedWork.tsx';
 import SelectedWork_Mobile_Images from '../components/SelectedWork_Mobile_Images.tsx';
 import SelectedWork_Mobile_Labels from '../components/SelectedWork_Mobile_Labels.tsx';
+import LoadingScreen from '../components/LoadingScreen.tsx';
 ---
 
 <Layout title="Bao Ngoc">
@@ -12,6 +13,7 @@ import SelectedWork_Mobile_Labels from '../components/SelectedWork_Mobile_Labels
         body { background: #fff; }
     </style>
 
+    <LoadingScreen client:load />
     <Nav />
     <InfoOverlay client:load />
 
