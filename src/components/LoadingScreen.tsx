@@ -4,15 +4,13 @@ export default function LoadingScreen() {
     const [phase, setPhase] = useState<"visible" | "bgfade" | "allfade" | "gone">("visible")
 
     useEffect(() => {
-        // Phase 1: fully visible for 1.5s
         const t1 = setTimeout(() => {
-            setPhase("bgfade") // Phase 2: bg fades to 50% over 0.6s
+            setPhase("bgfade")
             const t2 = setTimeout(() => {
-                setPhase("allfade") // Phase 3: everything fades out over 0.8s
+                setPhase("allfade")
                 const t3 = setTimeout(() => {
                     setPhase("gone")
                     window.dispatchEvent(new Event("loadingdone"))
-                    localStorage.setItem("loading", "false")
                 }, 800)
                 return () => clearTimeout(t3)
             }, 600)
@@ -39,7 +37,6 @@ export default function LoadingScreen() {
             transition: phase === "allfade" ? "opacity 0.8s ease" : "none",
             pointerEvents: phase === "allfade" ? "none" : "auto",
         }}>
-            {/* Background overlay that fades first */}
             <div style={{
                 position: "absolute",
                 top: 0,

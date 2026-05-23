@@ -16,7 +16,6 @@ export default function SelectedWork_Mobile_Labels() {
     const [isMobile, setIsMobile] = useState(false)
     const overlayRef = useRef<HTMLDivElement | null>(null)
 
-    // Create a dedicated overlay div on <html>, outside <body>
     useEffect(() => {
         setMounted(true)
         setIsMobile(window.innerWidth <= 808)
@@ -25,7 +24,6 @@ export default function SelectedWork_Mobile_Labels() {
 
         const div = document.createElement("div")
         div.id = "mobile-labels-root"
-        // Attach to <html>, not <body>, so body's position:fixed doesn't trap it
         document.documentElement.appendChild(div)
         overlayRef.current = div
 
@@ -35,8 +33,7 @@ export default function SelectedWork_Mobile_Labels() {
     }, [])
 
     useEffect(() => {
-        const isAlreadyDone = localStorage.getItem("loading") !== "true"
-        if (isAlreadyDone) { setLoaded(true); return }
+        // Always wait for loadingdone — never skip
         const onDone = () => setLoaded(true)
         window.addEventListener("loadingdone", onDone)
         return () => window.removeEventListener("loadingdone", onDone)
@@ -97,6 +94,6 @@ export default function SelectedWork_Mobile_Labels() {
             <p style={{ ...base }}>{w.title}</p>
             <p style={{ ...base, opacity: 0.35 }}>{w.type}</p>
         </div>,
-        overlayRef.current  // <-- portal target is <html> child, not <body>
+        overlayRef.current
     )
 }
