@@ -57,15 +57,21 @@ export default function ScrollGallery_Unboxed() {
     }, [current])
 
     useEffect(() => {
-        const unlockVideo = () => {
-            const v = videoRefs.current.find((v) => v)
-            if (!v) return
-            v.load()
-            v.play().catch(() => {})
-        }
-        window.addEventListener("touchstart", unlockVideo, { once: true })
-        return () => window.removeEventListener("touchstart", unlockVideo)
-    }, [])
+    const tryPlay = () => {
+        const v = videoRefs.current.find((v) => v)
+        if (!v) return
+        v.load()
+        v.play().catch(() => {
+            const unlockVideo = () => {
+                v.play().catch(() => {})
+                window.removeEventListener("touchstart", unlockVideo)
+            }
+            window.addEventListener("touchstart", unlockVideo, { once: true })
+        })
+    }
+    const timer = setTimeout(tryPlay, 500)
+    return () => clearTimeout(timer)
+}, [])
 
     useEffect(() => {
         const onReset = () => setCurrent(0)
