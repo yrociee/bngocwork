@@ -41,7 +41,7 @@ export default function ProjectDetails_Dazed() {
         fontSize: "30px",
         fontWeight: 300,
         letterSpacing: "0.02em",
-        lineHeight: "33px",
+        lineHeight: "34px",
         color: "rgb(0,0,0)",
         margin: 0,
         fontFeatureSettings: '"liga" 1, "zero" 1, "kern" 1, "case" 1, "ss08" 1, "ss12" 1, "ss13" 1, "ss14" 1, "ss15" 1',

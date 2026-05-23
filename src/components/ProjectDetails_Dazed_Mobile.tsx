@@ -2,6 +2,12 @@ import { useEffect, useState } from "react"
 
 export default function ProjectDetails_Dazed_Mobile() {
     const [open, setOpen] = useState(false)
+    const [isMobile, setIsMobile] = useState(false)
+
+    useEffect(() => {
+        const mq = window.matchMedia("(max-width: 808px)")
+        setIsMobile(mq.matches)
+    }, [])
 
     useEffect(() => {
         const onOpen = () => {
@@ -40,26 +46,16 @@ export default function ProjectDetails_Dazed_Mobile() {
         fontFeatureSettings: '"liga" 1, "zero" 1, "kern" 1, "case" 1, "ss08" 1, "ss12" 1, "ss13" 1, "ss14" 1, "ss15" 1',
     }
 
-    if (!open) return null
+    if (!isMobile || !open) return null
 
     return (
         <div
             style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                zIndex: 500,
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-                backgroundColor: "rgba(250,250,250,0.7)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                padding: "50px 10px 10px 10px",
-                boxSizing: "border-box",
-                overflow: "hidden",
+                position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
+                zIndex: 500, backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
+                backgroundColor: "rgba(250,250,250,0.7)", display: "flex", flexDirection: "column",
+                justifyContent: "space-between", padding: "50px 10px 10px 10px",
+                boxSizing: "border-box", overflow: "hidden",
             }}
             onClick={handleClose}
         >
