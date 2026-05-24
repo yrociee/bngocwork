@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 
 const desktopMedia = [
-    { type: "video", src: "https://framerusercontent.com/assets/43SUqMuQEq6mPsMz4N24Vsuihjw.mp4", fit: "cover" },
+    { type: "video", src: "https://framerusercontent.com/assets/zN4Il7DzrVrecu608E8ImQOiAU.mp4", fit: "cover" },
     { type: "image", src: "https://framerusercontent.com/images/EwYqrpyT8liUrqmGQTK1J0404bI.png?scale-down-to=4096&width=4662&height=3031" },
     { type: "image", src: "https://framerusercontent.com/images/WEnHvTpA4lrZNktJmJJpkIp9M.png?scale-down-to=4096&width=4662&height=3032" },
     { type: "video", src: "https://framerusercontent.com/assets/8zhEKaltDEauXVUihJ06qWFoGd0.mp4", fit: "cover" },
@@ -10,11 +10,11 @@ const desktopMedia = [
     { type: "image", src: "https://framerusercontent.com/images/mqJHIMjOyJgoPGLl80HnC9MS8s.png?scale-down-to=4096&width=4662&height=3032" },
     { type: "image", src: "https://framerusercontent.com/images/8cSzWAJGZsdFkSP1MboiSyORtc.png?scale-down-to=4096&width=4662&height=3032", fit: "cover" },
     { type: "image", src: "https://framerusercontent.com/images/eMYi1CYiq7h3hyX3XFjMNedy7s.png?scale-down-to=4096&width=4662&height=3031", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/JhA0PwKRHz6BeoMVmJ44p2GlOg.png?scale-down-to=4096&width=4662&height=3030", fit: "cover" },
+    { type: "image", src: "https://framerusercontent.com/images/JhA0PwKRHz6BeoMVmJ44p2GlOg.png?scale-down-to=4096&width=4662&height=3030" },
 ]
 
 const mobileMedia = [
-    { type: "video", src: "https://framerusercontent.com/assets/Xx4aPivfWLWVxS7MNCqUAPN4Uag.mp4", fit: "cover" },
+    { type: "video", src: "https://framerusercontent.com/assets/Xx4aPivfWLWVxS7MNCqUAPN4Uag.mp4"},
     { type: "image", src: "https://framerusercontent.com/images/n6WuQcbGKXmBoKzOVzSflV9nXoI.png?width=3020&height=6566", fit: "cover" },
     { type: "image", src: "https://framerusercontent.com/images/IWDJedcUYo5ZLzIshrisH9GuPP8.png?width=3020&height=6566" },
     { type: "video", src: "https://framerusercontent.com/assets/WxBdGPXbz877Dnj50UBTBALM0.mp4", fit: "cover" },

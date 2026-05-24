@@ -28,7 +28,7 @@ const baseWorks = [
 ]
 
 const works = [...baseWorks, ...baseWorks, ...baseWorks]
-const ITEM_GAP = 60
+const ITEM_GAP = 40
 
 export default function SelectedWork_Mobile_Images() {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -106,7 +106,7 @@ export default function SelectedWork_Mobile_Images() {
             const maxDist = screenH.current * 0.5
             const t = Math.max(0, 1 - dist / maxDist)
             el.style.transform = `scale(${0.88 + t * 0.22})`
-            el.style.filter = `blur(${(1 - t) * 3}px)`
+            el.style.filter = `blur(${(1 - t) * 10}px)`
             el.style.opacity = `${0.5 + t * 0.5}`
         })
         window.dispatchEvent(

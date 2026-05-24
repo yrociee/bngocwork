@@ -41,7 +41,7 @@ const baseWorks = [
 
 const works = [...baseWorks, ...baseWorks, ...baseWorks]
 const LINE_HEIGHT = 24
-const ITEM_GAP = 80
+const ITEM_GAP = 60
 
 export default function SelectedWork() {
     const itemRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -115,8 +115,8 @@ export default function SelectedWork() {
                         const maxDist = window.innerHeight * 0.5
                         const t = Math.max(0, 1 - dist / maxDist)
                         el.style.transform = `scale(${0.88 + t * 0.32})`
-                        el.style.filter = `blur(${(1 - t) * 4}px)`
-                        el.style.opacity = `${0.5 + t * 0.5}`
+el.style.filter = `blur(${(1 - t) * 10}px)`
+el.style.opacity = `${0.5 + t * 0.5}`
                     })
                     if (snapTimeout.current) clearTimeout(snapTimeout.current)
                     if (!isSnapping.current) {
