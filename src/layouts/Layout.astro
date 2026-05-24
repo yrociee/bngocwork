@@ -1,4 +1,6 @@
 ---
+import { Analytics } from '@vercel/analytics/astro'
+
 interface Props {
     title: string
 }
@@ -15,6 +17,7 @@ const { title } = Astro.props
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
+        <Analytics />
         <style>
             * {
                 margin: 0;
@@ -54,7 +57,6 @@ const { title } = Astro.props
                 .mobile  { display: block; }
             }
 
-            /* Page transition */
             @keyframes fadeIn {
                 from { opacity: 0; }
                 to   { opacity: 1; }
@@ -77,7 +79,6 @@ const { title } = Astro.props
     <body>
         <slot />
         <script>
-            // Intercept all internal link clicks and fade out before navigating
             document.addEventListener("click", (e) => {
                 const target = (e.target as HTMLElement).closest("a")
                 if (!target) return
