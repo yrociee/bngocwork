@@ -41,7 +41,7 @@ const baseWorks = [
 
 const works = [...baseWorks, ...baseWorks, ...baseWorks]
 const LINE_HEIGHT = 24
-const ITEM_GAP = 100
+const ITEM_GAP = 80
 
 export default function SelectedWork() {
     const itemRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -65,8 +65,6 @@ export default function SelectedWork() {
     }, [])
 
     useEffect(() => {
-        const isAlreadyDone = localStorage.getItem("loading") !== "true"
-        if (isAlreadyDone) { setLoaded(true); return }
         const onDone = () => setLoaded(true)
         window.addEventListener("loadingdone", onDone)
         return () => window.removeEventListener("loadingdone", onDone)
@@ -90,7 +88,7 @@ export default function SelectedWork() {
         const rect = el.getBoundingClientRect()
         const offset = rect.top + window.scrollY - window.innerHeight / 2 + rect.height / 2
         window.scrollTo({ top: offset, behavior: "smooth" })
-        setTimeout(() => { isSnapping.current = false }, 600)
+        setTimeout(() => { isSnapping.current = false }, 800)
     }
 
     useEffect(() => {
@@ -114,11 +112,11 @@ export default function SelectedWork() {
                         const rect = el.getBoundingClientRect()
                         const center = rect.top + rect.height / 2
                         const dist = Math.abs(center - mid)
-                        const maxDist = window.innerHeight * 0.6
+                        const maxDist = window.innerHeight * 0.5
                         const t = Math.max(0, 1 - dist / maxDist)
-                        el.style.transform = `scale(${0.85 + t * 0.45})`
-                        el.style.filter = `blur(${(1 - t) * 6}px)`
-                        el.style.opacity = `${0.4 + t * 0.6}`
+                        el.style.transform = `scale(${0.88 + t * 0.32})`
+                        el.style.filter = `blur(${(1 - t) * 4}px)`
+                        el.style.opacity = `${0.5 + t * 0.5}`
                     })
                     if (snapTimeout.current) clearTimeout(snapTimeout.current)
                     if (!isSnapping.current) {
@@ -129,7 +127,7 @@ export default function SelectedWork() {
                             const center = rect.top + rect.height / 2
                             const dist = Math.abs(center - mid)
                             if (dist > 8 && dist < rect.height * 1.5) snapToIndex(closestIndex)
-                        }, 80)
+                        }, 150)
                     }
                     ticking = false
                 })
@@ -207,7 +205,14 @@ export default function SelectedWork() {
                         <div
                             key={i}
                             ref={(el) => (itemRefs.current[i] = el)}
-                            style={{ width: "clamp(180px, 22vw, 300px)", overflow: "hidden", transition: "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), filter 0.5s ease, opacity 0.5s ease", willChange: "transform, filter, opacity", cursor: "pointer", pointerEvents: "auto" }}
+                            style={{
+                                width: "clamp(180px, 22vw, 300px)",
+                                overflow: "hidden",
+                                transition: "transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s ease, opacity 0.4s ease",
+                                willChange: "transform, filter, opacity",
+                                cursor: "pointer",
+                                pointerEvents: "auto",
+                            }}
                             onClick={() => { window.location.href = work.link }}
                         >
                             <img src={work.image} style={{ width: "100%", height: "auto", display: "block" }} />

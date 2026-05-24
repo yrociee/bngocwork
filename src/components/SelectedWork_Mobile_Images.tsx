@@ -28,7 +28,7 @@ const baseWorks = [
 ]
 
 const works = [...baseWorks, ...baseWorks, ...baseWorks]
-const ITEM_GAP = 100
+const ITEM_GAP = 60
 
 export default function SelectedWork_Mobile_Images() {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -103,11 +103,11 @@ export default function SelectedWork_Mobile_Images() {
                 closestDist = dist
                 closestIndex = i
             }
-            const maxDist = screenH.current * 0.6
+            const maxDist = screenH.current * 0.5
             const t = Math.max(0, 1 - dist / maxDist)
-            el.style.transform = `scale(${0.85 + t * 0.45})`
-            el.style.filter = `blur(${(1 - t) * 6}px)`
-            el.style.opacity = `${0.4 + t * 0.6}`
+            el.style.transform = `scale(${0.88 + t * 0.22})`
+            el.style.filter = `blur(${(1 - t) * 3}px)`
+            el.style.opacity = `${0.5 + t * 0.5}`
         })
         window.dispatchEvent(
             new CustomEvent("selectedwork_index", {
@@ -123,7 +123,7 @@ export default function SelectedWork_Mobile_Images() {
         isSnapping.current = true
         const target = el.offsetTop - screenH.current / 2 + el.offsetHeight / 2
         const start = scrollY.current
-        const duration = 400
+        const duration = 350
         const startTime = performance.now()
         const animate = (now: number) => {
             const t = Math.min((now - startTime) / duration, 1)
@@ -159,7 +159,7 @@ export default function SelectedWork_Mobile_Images() {
             if (snapTimeout.current) clearTimeout(snapTimeout.current)
             snapTimeout.current = setTimeout(() => {
                 snapToIndex(closest)
-            }, 150)
+            }, 80)
         }
         window.addEventListener("touchstart", onTouchStart, { passive: true })
         window.addEventListener("touchmove", onTouchMove, { passive: false })
@@ -184,30 +184,10 @@ export default function SelectedWork_Mobile_Images() {
     }, [mounted])
 
     return (
-        <div
-            style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                overflow: "hidden",
-            }}
-        >
-            <div
-                ref={containerRef}
-                style={{ width: "100%", willChange: "transform" }}
-            >
+        <div style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", overflow: "hidden" }}>
+            <div ref={containerRef} style={{ width: "100%", willChange: "transform" }}>
                 <div style={{ height: screenH.current }} />
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: `${ITEM_GAP}px`,
-                        alignItems: "center",
-                        pointerEvents: "auto",
-                    }}
-                >
+                <div style={{ display: "flex", flexDirection: "column", gap: `${ITEM_GAP}px`, alignItems: "center", pointerEvents: "auto" }}>
                     {works.map((_, i) => {
                         const work = baseWorks[i % baseWorks.length]
                         return (
@@ -215,24 +195,15 @@ export default function SelectedWork_Mobile_Images() {
                                 key={i}
                                 ref={(el) => (itemRefs.current[i] = el)}
                                 style={{
-                                    width: "clamp(180px, 22vw, 300px)",
+                                    width: "clamp(180px, 55vw, 300px)",
                                     overflow: "hidden",
                                     willChange: "transform, filter, opacity",
                                     cursor: "pointer",
                                     pointerEvents: "auto",
                                 }}
-                                onClick={() => {
-                                    window.location.href = work.link
-                                }}
+                                onClick={() => { window.location.href = work.link }}
                             >
-                                <img
-                                    src={work.image}
-                                    style={{
-                                        width: "100%",
-                                        height: "auto",
-                                        display: "block",
-                                    }}
-                                />
+                                <img src={work.image} style={{ width: "100%", height: "auto", display: "block" }} />
                             </div>
                         )
                     })}
