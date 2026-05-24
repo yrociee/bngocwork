@@ -163,8 +163,6 @@ export default function SelectedWork_Mobile_Images() {
         }
         const onTouchEnd = () => {
             if (overlayOpen.current) return
-
-            // Apply momentum
             const velocity = velocityY.current
             const momentumDistance = velocity * 120
             const targetY = scrollY.current - momentumDistance
@@ -211,13 +209,16 @@ export default function SelectedWork_Mobile_Images() {
     useEffect(() => {
         if (!mounted) return
         if (window.innerWidth > 808) return
-        setTimeout(() => {
+        const centerFirst = () => {
             const el = itemRefs.current[baseWorks.length]
             if (!el) return
             const target = el.offsetTop - screenH.current / 2 + el.offsetHeight / 2
             applyScroll(target)
             updateVisuals(target)
-        }, 150)
+        }
+        setTimeout(centerFirst, 150)
+        window.addEventListener("loadingdone", centerFirst, { once: true })
+        return () => window.removeEventListener("loadingdone", centerFirst)
     }, [mounted])
 
     return (

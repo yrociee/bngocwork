@@ -168,6 +168,8 @@ export default function SelectedWork() {
             window.scrollTo(0, offset)
         }
         setTimeout(centerFirst, 60)
+        window.addEventListener("loadingdone", centerFirst, { once: true })
+        return () => window.removeEventListener("loadingdone", centerFirst)
     }, [])
 
     if (!isDesktop) return null
