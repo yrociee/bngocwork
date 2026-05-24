@@ -14,7 +14,7 @@ const desktopMedia = [
 ]
 
 const mobileMedia = [
-    { type: "video", src: "https://framerusercontent.com/assets/Xx4aPivfWLWVxS7MNCqUAPN4Uag.mp4"},
+    { type: "video", src: "https://framerusercontent.com/assets/n9BtGWIcNV4WqeqJEXjYIkRLA3A.mp4", fit: "cover" },
     { type: "image", src: "https://framerusercontent.com/images/n6WuQcbGKXmBoKzOVzSflV9nXoI.png?width=3020&height=6566", fit: "cover" },
     { type: "image", src: "https://framerusercontent.com/images/IWDJedcUYo5ZLzIshrisH9GuPP8.png?width=3020&height=6566" },
     { type: "video", src: "https://framerusercontent.com/assets/WxBdGPXbz877Dnj50UBTBALM0.mp4", fit: "cover" },

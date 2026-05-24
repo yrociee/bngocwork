@@ -41,7 +41,7 @@ const baseWorks = [
 
 const works = [...baseWorks, ...baseWorks, ...baseWorks]
 const LINE_HEIGHT = 24
-const ITEM_GAP = 60
+const ITEM_GAP = 100
 
 export default function SelectedWork() {
     const itemRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -88,7 +88,7 @@ export default function SelectedWork() {
         const rect = el.getBoundingClientRect()
         const offset = rect.top + window.scrollY - window.innerHeight / 2 + rect.height / 2
         window.scrollTo({ top: offset, behavior: "smooth" })
-        setTimeout(() => { isSnapping.current = false }, 800)
+        setTimeout(() => { isSnapping.current = false }, 1000)
     }
 
     useEffect(() => {
@@ -115,8 +115,8 @@ export default function SelectedWork() {
                         const maxDist = window.innerHeight * 0.5
                         const t = Math.max(0, 1 - dist / maxDist)
                         el.style.transform = `scale(${0.88 + t * 0.32})`
-el.style.filter = `blur(${(1 - t) * 10}px)`
-el.style.opacity = `${0.5 + t * 0.5}`
+                        el.style.filter = `blur(${(1 - t) * 10}px)`
+                        el.style.opacity = `${0.5 + t * 0.5}`
                     })
                     if (snapTimeout.current) clearTimeout(snapTimeout.current)
                     if (!isSnapping.current) {
@@ -127,7 +127,7 @@ el.style.opacity = `${0.5 + t * 0.5}`
                             const center = rect.top + rect.height / 2
                             const dist = Math.abs(center - mid)
                             if (dist > 8 && dist < rect.height * 1.5) snapToIndex(closestIndex)
-                        }, 150)
+                        }, 500)
                     }
                     ticking = false
                 })
@@ -208,7 +208,7 @@ el.style.opacity = `${0.5 + t * 0.5}`
                             style={{
                                 width: "clamp(180px, 22vw, 300px)",
                                 overflow: "hidden",
-                                transition: "transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s ease, opacity 0.4s ease",
+                                transition: "transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.6s ease, opacity 0.6s ease",
                                 willChange: "transform, filter, opacity",
                                 cursor: "pointer",
                                 pointerEvents: "auto",
