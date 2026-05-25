@@ -4,25 +4,25 @@ const baseWorks = [
     {
         title: "RIEL STUDIO",
         type: "PACKAGING",
-        image: "https://framerusercontent.com/images/e7HRhfoupnNe2gEMtkpeIFnUQ.png?width=3414&height=2727",
+        image: "https://framerusercontent.com/images/e7HRhfoupnNe2gEMtkpeIFnUQ.png?width=400",
         link: "/projects/riel-studio",
     },
     {
         title: "UNBOXED MAGAZINE",
         type: "PUBLICATION",
-        image: "https://framerusercontent.com/images/ffsi7UDabhT3r1SFPHNA1d6jzoQ.png?width=2679&height=3660",
+        image: "https://framerusercontent.com/images/ffsi7UDabhT3r1SFPHNA1d6jzoQ.png?width=400",
         link: "/projects/unboxed-magazine",
     },
     {
         title: "DRESSING THE SCREEN",
         type: "BRANDING ∙ PRINT",
-        image: "https://framerusercontent.com/images/gQ2RbcOSUKe2Yv7zo4nazX5XPT8.png?width=2525&height=1780",
+        image: "https://framerusercontent.com/images/gQ2RbcOSUKe2Yv7zo4nazX5XPT8.png?width=400",
         link: "/projects/dressing-the-screen",
     },
     {
         title: "DAZED MAGAZINE",
         type: "PUBLICATION",
-        image: "https://framerusercontent.com/images/tERiXTL5NWm4D7Me4vaw3G9la4.png?width=2823&height=3678",
+        image: "https://framerusercontent.com/images/tERiXTL5NWm4D7Me4vaw3G9la4.png?width=400",
         link: "/projects/dazed-magazine",
     },
 ]
