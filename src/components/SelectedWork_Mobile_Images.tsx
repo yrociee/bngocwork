@@ -28,7 +28,7 @@ const baseWorks = [
 ]
 
 const works = [...baseWorks, ...baseWorks, ...baseWorks]
-const ITEM_GAP = 100
+const ITEM_GAP = 80
 
 export default function SelectedWork_Mobile_Images() {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -36,21 +36,19 @@ export default function SelectedWork_Mobile_Images() {
     const scrollY = useRef(0)
     const touchStartY = useRef(0)
     const touchStartScroll = useRef(0)
-    const snapTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
-    const isSnapping = useRef(false)
     const screenH = useRef(0)
     const overlayOpen = useRef(false)
     const velocityY = useRef(0)
     const lastTouchY = useRef(0)
     const lastTouchTime = useRef(0)
+    const animFrameRef = useRef<number | null>(null)
+    const snapTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
     const [mounted, setMounted] = useState(false)
 
     useEffect(() => {
         setMounted(true)
         screenH.current = window.innerHeight
-
         if (window.innerWidth > 808) return
-
         const style = document.createElement("style")
         style.textContent = `
             ::-webkit-scrollbar { display: none; }
@@ -102,15 +100,12 @@ export default function SelectedWork_Mobile_Images() {
             if (!el) return
             const center = el.offsetTop - y + el.offsetHeight / 2
             const dist = Math.abs(center - mid)
-            if (dist < closestDist) {
-                closestDist = dist
-                closestIndex = i
-            }
-            const maxDist = screenH.current * 0.5
+            if (dist < closestDist) { closestDist = dist; closestIndex = i }
+            const maxDist = screenH.current * 0.45
             const t = Math.max(0, 1 - dist / maxDist)
-            el.style.transform = `scale(${0.88 + t * 0.22})`
-            el.style.filter = `blur(${(1 - t) * 10}px)`
-            el.style.opacity = `${0.5 + t * 0.5}`
+            el.style.transform = `scale(${0.80 + t * 0.30})`
+            el.style.filter = `blur(${(1 - t) * 12}px)`
+            el.style.opacity = `${0.35 + t * 0.65}`
         })
         window.dispatchEvent(new CustomEvent("selectedwork_index", { detail: closestIndex % baseWorks.length }))
         return closestIndex
@@ -119,35 +114,35 @@ export default function SelectedWork_Mobile_Images() {
     const snapToIndex = (index: number) => {
         const el = itemRefs.current[index]
         if (!el) return
-        isSnapping.current = true
         const target = el.offsetTop - screenH.current / 2 + el.offsetHeight / 2
         const start = scrollY.current
-        const duration = 600
+        const duration = 700
         const startTime = performance.now()
         const animate = (now: number) => {
             const t = Math.min((now - startTime) / duration, 1)
-            const ease = 1 - Math.pow(1 - t, 4)
+            const ease = 1 - Math.pow(1 - t, 3)
             const y = start + (target - start) * ease
             applyScroll(y)
             updateVisuals(y)
             if (t < 1) requestAnimationFrame(animate)
-            else isSnapping.current = false
         }
         requestAnimationFrame(animate)
     }
 
     useEffect(() => {
         if (window.innerWidth > 808) return
+
         const onTouchStart = (e: TouchEvent) => {
             if (overlayOpen.current) return
+            if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
+            if (snapTimeout.current) clearTimeout(snapTimeout.current)
             touchStartY.current = e.touches[0].clientY
             touchStartScroll.current = scrollY.current
             lastTouchY.current = e.touches[0].clientY
             lastTouchTime.current = Date.now()
             velocityY.current = 0
-            isSnapping.current = false
-            if (snapTimeout.current) clearTimeout(snapTimeout.current)
         }
+
         const onTouchMove = (e: TouchEvent) => {
             if (overlayOpen.current) return
             e.preventDefault()
@@ -161,41 +156,30 @@ export default function SelectedWork_Mobile_Images() {
             applyScroll(touchStartScroll.current + diff)
             updateVisuals(scrollY.current)
         }
+
         const onTouchEnd = () => {
             if (overlayOpen.current) return
-            const velocity = velocityY.current
-            const momentumDistance = velocity * 120
-            const targetY = scrollY.current - momentumDistance
+            let velocity = velocityY.current * 100
+            const decay = 0.88
 
-            if (Math.abs(velocity) > 0.3) {
-                const start = scrollY.current
-                const duration = 400
-                const startTime = performance.now()
-                const animateMomentum = (now: number) => {
-                    const t = Math.min((now - startTime) / duration, 1)
-                    const ease = 1 - Math.pow(1 - t, 3)
-                    const y = start + (targetY - start) * ease
-                    applyScroll(y)
-                    updateVisuals(y)
-                    if (t < 1) {
-                        requestAnimationFrame(animateMomentum)
-                    } else {
-                        if (snapTimeout.current) clearTimeout(snapTimeout.current)
-                        snapTimeout.current = setTimeout(() => {
-                            const closest = updateVisuals(scrollY.current)
-                            snapToIndex(closest)
-                        }, 300)
-                    }
+            const momentum = () => {
+                if (Math.abs(velocity) < 0.8) {
+                    // Momentum done — snap gently
+                    if (snapTimeout.current) clearTimeout(snapTimeout.current)
+                    snapTimeout.current = setTimeout(() => {
+                        const closest = updateVisuals(scrollY.current)
+                        snapToIndex(closest)
+                    }, 100)
+                    return
                 }
-                requestAnimationFrame(animateMomentum)
-            } else {
-                if (snapTimeout.current) clearTimeout(snapTimeout.current)
-                snapTimeout.current = setTimeout(() => {
-                    const closest = updateVisuals(scrollY.current)
-                    snapToIndex(closest)
-                }, 300)
+                applyScroll(scrollY.current - velocity)
+                updateVisuals(scrollY.current)
+                velocity *= decay
+                animFrameRef.current = requestAnimationFrame(momentum)
             }
+            animFrameRef.current = requestAnimationFrame(momentum)
         }
+
         window.addEventListener("touchstart", onTouchStart, { passive: true })
         window.addEventListener("touchmove", onTouchMove, { passive: false })
         window.addEventListener("touchend", onTouchEnd, { passive: true })
@@ -241,7 +225,11 @@ export default function SelectedWork_Mobile_Images() {
                                 }}
                                 onClick={() => { window.location.href = work.link }}
                             >
-                                <img src={work.image} loading={i === baseWorks.length ? "eager" : "lazy"} style={{ width: "100%", height: "auto", display: "block" }} />
+                                <img
+                                    src={work.image}
+                                    loading={i === baseWorks.length ? "eager" : "lazy"}
+                                    style={{ width: "100%", height: "auto", display: "block" }}
+                                />
                             </div>
                         )
                     })}
