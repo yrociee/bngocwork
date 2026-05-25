@@ -5,24 +5,28 @@ const baseWorks = [
         title: "RIEL STUDIO",
         type: "PACKAGING",
         image: "https://framerusercontent.com/images/e7HRhfoupnNe2gEMtkpeIFnUQ.png?width=400",
+        aspectRatio: "3414 / 2727",
         link: "/projects/riel-studio",
     },
     {
         title: "UNBOXED MAGAZINE",
         type: "PUBLICATION",
         image: "https://framerusercontent.com/images/ffsi7UDabhT3r1SFPHNA1d6jzoQ.png?width=400",
+        aspectRatio: "2679 / 3660",
         link: "/projects/unboxed-magazine",
     },
     {
         title: "DRESSING THE SCREEN",
         type: "BRANDING ∙ PRINT",
         image: "https://framerusercontent.com/images/gQ2RbcOSUKe2Yv7zo4nazX5XPT8.png?width=400",
+        aspectRatio: "2525 / 1780",
         link: "/projects/dressing-the-screen",
     },
     {
         title: "DAZED MAGAZINE",
         type: "PUBLICATION",
         image: "https://framerusercontent.com/images/tERiXTL5NWm4D7Me4vaw3G9la4.png?width=400",
+        aspectRatio: "2823 / 3678",
         link: "/projects/dazed-magazine",
     },
 ]
@@ -217,6 +221,7 @@ export default function SelectedWork_Mobile_Images() {
                                 ref={(el) => (itemRefs.current[i] = el)}
                                 style={{
                                     width: "clamp(200px, 65vw, 340px)",
+                                    aspectRatio: work.aspectRatio,
                                     overflow: "hidden",
                                     willChange: "transform, filter, opacity",
                                     cursor: "pointer",
@@ -229,7 +234,7 @@ export default function SelectedWork_Mobile_Images() {
                                 <img
                                     src={work.image}
                                     loading={i === baseWorks.length ? "eager" : "lazy"}
-                                    style={{ width: "100%", height: "auto", display: "block" }}
+                                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                                 />
                             </div>
                         )
