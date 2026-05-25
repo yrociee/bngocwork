@@ -112,11 +112,11 @@ export default function SelectedWork() {
                         const rect = el.getBoundingClientRect()
                         const center = rect.top + rect.height / 2
                         const dist = Math.abs(center - mid)
-                        const maxDist = window.innerHeight * 0.45
+                        const maxDist = window.innerHeight * 0.65
                         const t = Math.max(0, 1 - dist / maxDist)
-                        el.style.transform = `scale(${0.80 + t * 0.30})`
-                        el.style.filter = `blur(${(1 - t) * 12}px)`
-                        el.style.opacity = `${0.35 + t * 0.65}`
+                        el.style.transform = `scale(${0.75 + t * 0.35})`
+                        el.style.filter = `blur(${(1 - t) * 8}px)`
+                        el.style.opacity = `${0.3 + t * 0.7}`
                     })
                     if (snapTimeout.current) clearTimeout(snapTimeout.current)
                     if (!isSnapping.current) {
@@ -208,7 +208,7 @@ export default function SelectedWork() {
                             key={i}
                             ref={(el) => (itemRefs.current[i] = el)}
                             style={{
-                                width: "clamp(180px, 22vw, 300px)",
+                                width: "clamp(220px, 28vw, 420px)",
                                 overflow: "hidden",
                                 transition: "transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease",
                                 willChange: "transform, filter, opacity",

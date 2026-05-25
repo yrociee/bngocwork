@@ -101,11 +101,11 @@ export default function SelectedWork_Mobile_Images() {
             const center = el.offsetTop - y + el.offsetHeight / 2
             const dist = Math.abs(center - mid)
             if (dist < closestDist) { closestDist = dist; closestIndex = i }
-            const maxDist = screenH.current * 0.45
+            const maxDist = screenH.current * 0.65
             const t = Math.max(0, 1 - dist / maxDist)
-            el.style.transform = `scale(${0.80 + t * 0.30})`
-            el.style.filter = `blur(${(1 - t) * 12}px)`
-            el.style.opacity = `${0.35 + t * 0.65}`
+            el.style.transform = `scale(${0.75 + t * 0.35})`
+            el.style.filter = `blur(${(1 - t) * 8}px)`
+            el.style.opacity = `${0.3 + t * 0.7}`
         })
         window.dispatchEvent(new CustomEvent("selectedwork_index", { detail: closestIndex % baseWorks.length }))
         return closestIndex
@@ -164,7 +164,6 @@ export default function SelectedWork_Mobile_Images() {
 
             const momentum = () => {
                 if (Math.abs(velocity) < 0.8) {
-                    // Momentum done — snap gently
                     if (snapTimeout.current) clearTimeout(snapTimeout.current)
                     snapTimeout.current = setTimeout(() => {
                         const closest = updateVisuals(scrollY.current)
@@ -217,7 +216,7 @@ export default function SelectedWork_Mobile_Images() {
                                 key={i}
                                 ref={(el) => (itemRefs.current[i] = el)}
                                 style={{
-                                    width: "clamp(180px, 55vw, 300px)",
+                                    width: "clamp(200px, 65vw, 340px)",
                                     overflow: "hidden",
                                     willChange: "transform, filter, opacity",
                                     cursor: "pointer",
