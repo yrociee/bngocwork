@@ -104,7 +104,7 @@ export default function SelectedWork_Mobile_Images() {
             const maxDist = screenH.current * 0.65
             const t = Math.max(0, 1 - dist / maxDist)
             el.style.transform = `scale(${0.75 + t * 0.35})`
-            el.style.filter = `blur(${(1 - t) * 4}px)`
+            el.style.filter = `blur(${(1 - t) * 8}px)`
             el.style.opacity = `${0.3 + t * 0.7}`
         })
         window.dispatchEvent(new CustomEvent("selectedwork_index", { detail: closestIndex % baseWorks.length }))
@@ -116,7 +116,7 @@ export default function SelectedWork_Mobile_Images() {
         if (!el) return
         const target = el.offsetTop - screenH.current / 2 + el.offsetHeight / 2
         const start = scrollY.current
-        const duration = 700
+        const duration = 900
         const startTime = performance.now()
         const animate = (now: number) => {
             const t = Math.min((now - startTime) / duration, 1)
@@ -160,7 +160,7 @@ export default function SelectedWork_Mobile_Images() {
         const onTouchEnd = () => {
             if (overlayOpen.current) return
             let velocity = velocityY.current * 100
-            const decay = 0.88
+            const decay = 0.94
 
             const momentum = () => {
                 if (Math.abs(velocity) < 0.8) {
