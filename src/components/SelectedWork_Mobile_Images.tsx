@@ -241,7 +241,7 @@ export default function SelectedWork_Mobile_Images() {
                                 }}
                                 onClick={() => { window.location.href = work.link }}
                             >
-                                <img src={work.image} style={{ width: "100%", height: "auto", display: "block" }} />
+                                <img src={work.image} loading={i === baseWorks.length ? "eager" : "lazy"} style={{ width: "100%", height: "auto", display: "block" }} />
                             </div>
                         )
                     })}
