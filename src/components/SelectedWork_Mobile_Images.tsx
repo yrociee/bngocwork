@@ -163,8 +163,8 @@ export default function SelectedWork_Mobile_Images() {
 
         const onTouchEnd = () => {
             if (overlayOpen.current) return
-            let velocity = velocityY.current * 100
-            const decay = 0.94
+            let velocity = velocityY.current * 60
+const decay = 0.90
 
             const momentum = () => {
                 if (Math.abs(velocity) < 0.8) {
