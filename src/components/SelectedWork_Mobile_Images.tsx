@@ -104,7 +104,7 @@ export default function SelectedWork_Mobile_Images() {
             const maxDist = screenH.current * 0.65
             const t = Math.max(0, 1 - dist / maxDist)
             el.style.transform = `scale(${0.75 + t * 0.35})`
-            el.style.filter = `blur(${(1 - t) * 8}px)`
+            el.style.filter = `blur(${(1 - t) * 4}px)`
             el.style.opacity = `${0.3 + t * 0.7}`
         })
         window.dispatchEvent(new CustomEvent("selectedwork_index", { detail: closestIndex % baseWorks.length }))
@@ -221,6 +221,8 @@ export default function SelectedWork_Mobile_Images() {
                                     willChange: "transform, filter, opacity",
                                     cursor: "pointer",
                                     pointerEvents: "auto",
+                                    backfaceVisibility: "hidden",
+                                    WebkitBackfaceVisibility: "hidden" as any,
                                 }}
                                 onClick={() => { window.location.href = work.link }}
                             >
