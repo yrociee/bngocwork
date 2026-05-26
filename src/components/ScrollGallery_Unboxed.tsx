@@ -1,23 +1,23 @@
 import { useEffect, useRef, useState } from "react"
 
 const desktopMedia = [
-    { type: "video", src: "https://framerusercontent.com/assets/TA04AbVEh3WqZyoAEUZLVhvO4gU.mp4", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/uFijCl2XotLyQUhw4RDTLwSmsq0.png?scale-down-to=4096&width=4664&height=3032" },
-    { type: "image", src: "https://framerusercontent.com/images/S7fuo1b6x0luOEy1VhAg1Pi4Vg.png?scale-down-to=4096&width=4664&height=3030", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/7Ckqme8ovRJ06C6eW5uhGGhUOE.png?scale-down-to=4096&width=4664&height=3030", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/QktAU8ifLJs2yCZIPyH3Hzbb9g.png?scale-down-to=4096&width=4664&height=3032", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/qkxG6YkkEN32s7LoC0adXSvTF8.png?scale-down-to=4096&width=4664&height=3030", fit: "cover" },
-    { type: "video", src: "https://framerusercontent.com/assets/vCHWG87XlXgHhqLKsX1ViYHK66s.mp4", fit: "cover" },
+    { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/unboxed_magazine_1_gc8cur.mp4", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/unboxed_magazine_2_b6xbhw.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/unboxed_magazine_3_cigqqr.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/unboxed_magazine_4_nzl3lu.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/unboxed_magazine_5_xtye7x.webp", fit: "cover" },
+    { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/unboxed_magazine_6_csxify.mp4", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/unboxed_magazine_7_klmzag.webp", fit: "cover" },
 ]
 
 const mobileMedia = [
-    { type: "video", src: "https://framerusercontent.com/assets/oZ0TY90DGYO4fPzeOJG425Mbi8.mp4", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/3hFhIvLbYPEChwcXCtMIk1jcVT4.png?width=3020&height=6566" },
-    { type: "image", src: "https://framerusercontent.com/images/e84q03HgXbUTgmjcdFmtl2kDjg.png?width=3020&height=6566", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/1TCU6Bfhs5kXrJfmV5suKhBsOWw.png?width=3020&height=6566", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/GrFnokCrJMxazz7VITVOMzFAcM.png?width=3020&height=6566", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/UvMCtJRF27D1VUplypvEYwUHOFs.png?width=3020&height=6566", fit: "cover" },
-    { type: "video", src: "https://framerusercontent.com/assets/ldTxFLyi8wGUfTaSi1z9rL6Xc.mp4", fit: "cover" },
+    { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/unboxed_magazine_1_h4vnuv.mp4", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/unboxed_magazine_2_yynp0r.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/unboxed_magazine_3_fd29ur.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/unboxed_magazine_4_o4eofd.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/unboxed_magazine_5_oi4feg.webp", fit: "cover" },
+    { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/unboxed_magazine_6_yeijqf.mp4", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/unboxed_magazine_7_jneull.webp", fit: "cover" },
 ]
 
 export default function ScrollGallery_Unboxed() {
@@ -57,21 +57,18 @@ export default function ScrollGallery_Unboxed() {
     }, [current])
 
     useEffect(() => {
-    const tryPlay = () => {
-        const v = videoRefs.current.find((v) => v)
-        if (!v) return
-        v.load()
-        v.play().catch(() => {
-            const unlockVideo = () => {
-                v.play().catch(() => {})
-                window.removeEventListener("touchstart", unlockVideo)
-            }
-            window.addEventListener("touchstart", unlockVideo, { once: true })
-        })
-    }
-    const timer = setTimeout(tryPlay, 500)
-    return () => clearTimeout(timer)
-}, [])
+        const tryPlay = () => {
+            const v = videoRefs.current.find((v) => v)
+            if (!v) return
+            v.load()
+            v.play().catch(() => {
+                const unlock = () => { v.play().catch(() => {}); window.removeEventListener("touchstart", unlock) }
+                window.addEventListener("touchstart", unlock, { once: true })
+            })
+        }
+        const timer = setTimeout(tryPlay, 500)
+        return () => clearTimeout(timer)
+    }, [])
 
     useEffect(() => {
         const onReset = () => setCurrent(0)
@@ -155,7 +152,7 @@ export default function ScrollGallery_Unboxed() {
                 {media.map((item, i) => (
                     <div key={i} style={{ width: "100%", height: "100svh", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
                         {item.type === "image" ? (
-                            <img src={item.src} style={{ width: "100%", height: "100%", objectFit: (item as any).fit ?? "contain", pointerEvents: "none", userSelect: "none", display: "block" }} />
+                            <img src={item.src} loading={i === 0 ? "eager" : "lazy"} style={{ width: "100%", height: "100%", objectFit: (item as any).fit ?? "contain", pointerEvents: "none", userSelect: "none", display: "block" }} />
                         ) : (
                             <video ref={(el) => { if (el) videoRefs.current[i] = el }} src={item.src} loop muted playsInline preload="auto" style={{ width: "100%", height: "100%", objectFit: "cover", pointerEvents: "none", display: "block" }} />
                         )}

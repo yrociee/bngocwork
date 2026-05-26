@@ -1,23 +1,23 @@
 import { useEffect, useRef, useState } from "react"
 
 const desktopMedia = [
-    { type: "image", src: "https://framerusercontent.com/images/WfEuGHbkwbbQS7pDYdbtJlVFPI.png?scale-down-to=4096&width=4664&height=3032" },
-    { type: "image", src: "https://framerusercontent.com/images/G7EB1K7257K0jZhlDXnF02bM8.png?scale-down-to=4096&width=4664&height=3032" },
-    { type: "image", src: "https://framerusercontent.com/images/JQxSswox32qca8aJhi7Gro487mM.png?scale-down-to=4096&width=4664&height=3032" },
-    { type: "image", src: "https://framerusercontent.com/images/jp6GZbk7OChrnTcx0OGs4937sAY.png?scale-down-to=4096&width=4664&height=3030", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/S4vcwN5shFm2fKrty3M5jTdpGo.png?scale-down-to=4096&width=4664&height=3031" },
-    { type: "image", src: "https://framerusercontent.com/images/ZfI170kRgMayhJxtLiOKG47WU.png?width=4664&height=3030" },
-    { type: "image", src: "https://framerusercontent.com/images/DyaM8IgiuMpyQOR0cqVOPC0qI.png?scale-down-to=4096&width=4664&height=3030", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dazed_magazine_1_prukzo.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dazed_magazine_2_zai3k7.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dazed_magazine_3_zcmekw.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dazed_magazine_4_scvvfj.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dazed_magazine_5_vhwf0n.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dazed_magazine_6_o90fg7.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dazed_magazine_7_odtqcq.webp", fit: "cover" },
 ]
 
 const mobileMedia = [
-    { type: "image", src: "https://framerusercontent.com/images/bHl3J1J1PAdzhhKicp46j8RIU.png?width=3020&height=6566" },
-    { type: "image", src: "https://framerusercontent.com/images/JKCyGecml8F9qr5utbcwn544.png?width=3020&height=6566", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/YTVDfXmjHgQ3DaZjUmwUJHkQV6Q.png?width=3020&height=6566", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/KcZ4jnTfxCskuBVzwoRFk0zCa0U.png?width=3020&height=6566", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/yudxSX5pNIvGZ40vrJlYI5Zq0.png?width=3020&height=6566", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/6BykBOsoNguIBx0pTGxNByUOIu4.png?width=3020&height=6566", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/Yg1W0xtc4fB7U0MruIeac5hQZk.png?width=3020&height=6566", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dazed_magazine_1_o2mdqj.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dazed_magazine_2_ancdhs.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dazed_magazine_3_wincak.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dazed_magazine_4_qsoaul.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dazed_magazine_5_bkbp0s.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dazed_magazine_6_hph3fn.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dazed_magazine_7_ko5vv2.webp", fit: "cover" },
 ]
 
 export default function ScrollGallery_Dazed() {
@@ -51,7 +51,7 @@ export default function ScrollGallery_Dazed() {
     useEffect(() => {
         videoRefs.current.forEach((v, i) => {
             if (!v) return
-            if (i === current) { v.currentTime = 0; v.play() }
+            if (i === current) { v.currentTime = 0; v.load(); v.play() }
             else { v.pause(); v.currentTime = 0 }
         })
     }, [current])
@@ -138,7 +138,7 @@ export default function ScrollGallery_Dazed() {
                 {media.map((item, i) => (
                     <div key={i} style={{ width: "100%", height: "100svh", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
                         {item.type === "image" ? (
-                            <img src={item.src} style={{ width: "100%", height: "100%", objectFit: (item as any).fit ?? "contain", pointerEvents: "none", userSelect: "none", display: "block" }} />
+                            <img src={item.src} loading={i === 0 ? "eager" : "lazy"} style={{ width: "100%", height: "100%", objectFit: (item as any).fit ?? "contain", pointerEvents: "none", userSelect: "none", display: "block" }} />
                         ) : (
                             <video ref={(el) => { if (el) videoRefs.current[i] = el }} src={item.src} loop muted playsInline preload="auto" style={{ width: "100%", height: "100%", objectFit: "cover", pointerEvents: "none", display: "block" }} />
                         )}

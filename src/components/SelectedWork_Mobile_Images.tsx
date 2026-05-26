@@ -4,28 +4,28 @@ const baseWorks = [
     {
         title: "RIEL STUDIO",
         type: "PACKAGING",
-        image: "https://framerusercontent.com/images/e7HRhfoupnNe2gEMtkpeIFnUQ.png?width=400",
+        image: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/riel_studio_qchknq.webp",
         aspectRatio: "3414 / 2727",
         link: "/projects/riel-studio",
     },
     {
         title: "UNBOXED MAGAZINE",
         type: "PUBLICATION",
-        image: "https://framerusercontent.com/images/ffsi7UDabhT3r1SFPHNA1d6jzoQ.png?width=400",
+        image: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/unboxed_magazine_psndx2.webp",
         aspectRatio: "2679 / 3660",
         link: "/projects/unboxed-magazine",
     },
     {
         title: "DRESSING THE SCREEN",
         type: "BRANDING ∙ PRINT",
-        image: "https://framerusercontent.com/images/gQ2RbcOSUKe2Yv7zo4nazX5XPT8.png?width=400",
+        image: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_cgi9uo.webp",
         aspectRatio: "2525 / 1780",
         link: "/projects/dressing-the-screen",
     },
     {
         title: "DAZED MAGAZINE",
         type: "PUBLICATION",
-        image: "https://framerusercontent.com/images/tERiXTL5NWm4D7Me4vaw3G9la4.png?width=400",
+        image: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dazed_magazine_dphwdo.webp",
         aspectRatio: "2823 / 3678",
         link: "/projects/dazed-magazine",
     },
@@ -163,16 +163,16 @@ export default function SelectedWork_Mobile_Images() {
 
         const onTouchEnd = () => {
             if (overlayOpen.current) return
-            let velocity = velocityY.current * 60
-const decay = 0.90
+            let velocity = velocityY.current * 30
+            const decay = 0.85
 
             const momentum = () => {
-                if (Math.abs(velocity) < 0.8) {
+                if (Math.abs(velocity) < 0.5) {
                     if (snapTimeout.current) clearTimeout(snapTimeout.current)
                     snapTimeout.current = setTimeout(() => {
                         const closest = updateVisuals(scrollY.current)
                         snapToIndex(closest)
-                    }, 100)
+                    }, 400)
                     return
                 }
                 applyScroll(scrollY.current - velocity)

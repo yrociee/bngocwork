@@ -1,29 +1,29 @@
 import { useEffect, useRef, useState } from "react"
 
 const desktopMedia = [
-    { type: "image", src: "https://framerusercontent.com/images/DAVOGzUkG01NMu8gHOCrLwvsrfs.jpg?width=2003&height=3032" },
-    { type: "image", src: "https://framerusercontent.com/images/b6ReisxAjbyOSbMnMhdlVA.jpg?width=2004&height=3032" },
-    { type: "image", src: "https://framerusercontent.com/images/poeZwWbtmP82YIXfEHY9Qis.png?scale-down-to=4096&width=4664&height=3032" },
-    { type: "image", src: "https://framerusercontent.com/images/K0sN7M9yk2wxJs7Ds1wE4A4BVfs.png?scale-down-to=4096&width=4664&height=3032" },
-    { type: "image", src: "https://framerusercontent.com/images/Egu7trvamoROSdrTBgey2Ub3i4.png?scale-down-to=4096&width=4664&height=3030" },
-    { type: "image", src: "https://framerusercontent.com/images/NBsUH88AIPcfBIAg4XgK87LF1Y8.png?width=4664&height=3032", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/Av7l6T0QcZHgBMyJBpq17U8D3oY.png?scale-down-to=4096&width=4664&height=3032" },
-    { type: "image", src: "https://framerusercontent.com/images/hWtYnT7sA7n6ohNAxGYV9YF3tg0.png?width=4664&height=3031" },
-    { type: "video", src: "https://framerusercontent.com/assets/RvBEkbnJelMEylqRyYEgNbQgNg.mp4", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/uUY8JapBp83M8VQAE3E4etlfdmk.png?scale-down-to=4096&width=4664&height=3030" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_1_fbsjgs.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_2_frukw9.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_3_iopmkc.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_4_hof8do.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_5_si7gel.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_6_hiivjp.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_7_zvraao.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_8_iyar8o.webp" },
+    { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/dressing_the_screen_9_bhh44r.mp4", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_10_nwaqtd.webp" },
 ]
 
 const mobileMedia = [
-    { type: "image", src: "https://framerusercontent.com/images/e1DYt50gNEuVEbRaLv7CBnf6QBo.png?width=3020&height=6566", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/PyD9GdMBkvcohjfjVoiUUNSD7U.png?width=3020&height=6566", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/YpmJaF1PfPZbiMQXG7oCW2sges.png?width=3020&height=6566" },
-    { type: "image", src: "https://framerusercontent.com/images/MRHAzkQRTXqsVRmd2EPuXFvxJvo.png?width=3020&height=6566" },
-    { type: "image", src: "https://framerusercontent.com/images/14x2vMBuC6ckW4f9sXNWuNEiBF4.png?width=3020&height=6566" },
-    { type: "image", src: "https://framerusercontent.com/images/Ml6J3HuPnYn8dQSx3Jg7xJqjXo.png?width=3020&height=6566", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/1Mzo5loyDWookwwwchjOfOwM.png?width=3020&height=6566", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/4U8qOCJ6LHvCpRxclHVV45tJio.png?width=3020&height=6566", fit: "cover" },
-    { type: "video", src: "https://framerusercontent.com/assets/P3A8EFHJqybBKuwn4IFIZsqJw.mp4", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/finwxb9D5PxfmF1kCVHyTaJ6grs.png?width=3020&height=6566", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_1_ljkrxd.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_2_nsn8ga.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_3_zvzhvc.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_4_k7glrw.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_5_yr8n8c.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_6_cwcrei.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_7_xl4eun.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_8_jx6ndm.webp", fit: "cover" },
+    { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/dressing_the_screen_9_nlf37c.mp4", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_10_v0iesc.webp", fit: "cover" },
 ]
 
 export default function ScrollGallery_DressingTheScreen() {
@@ -147,7 +147,7 @@ export default function ScrollGallery_DressingTheScreen() {
                 {media.map((item, i) => (
                     <div key={i} style={{ width: "100%", height: "100svh", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
                         {item.type === "image" ? (
-                            <img src={item.src} style={{ width: "100%", height: "100%", objectFit: (item as any).fit ?? "contain", pointerEvents: "none", userSelect: "none", display: "block" }} />
+                            <img src={item.src} loading={i === 0 ? "eager" : "lazy"} style={{ width: "100%", height: "100%", objectFit: (item as any).fit ?? "contain", pointerEvents: "none", userSelect: "none", display: "block" }} />
                         ) : (
                             <video ref={(el) => { if (el) videoRefs.current[i] = el }} src={item.src} loop muted playsInline preload="auto" style={{ width: "100%", height: "100%", objectFit: "cover", pointerEvents: "none", display: "block" }} />
                         )}

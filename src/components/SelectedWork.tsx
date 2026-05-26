@@ -3,38 +3,34 @@ import { useEffect, useRef, useState } from "react"
 const baseWorks = [
     {
         title: "RIEL STUDIO",
-        desc: "A packaging system for a Vietnamese design collective",
         type: "PACKAGING",
         number: "01",
-        image: "https://framerusercontent.com/images/e7HRhfoupnNe2gEMtkpeIFnUQ.png?width=3414&height=2727",
-        bgImage: "https://framerusercontent.com/images/r93GOoU5K6xMhjZ3vOugETVmtHg.jpg?width=1280&height=832",
+        image: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/riel_studio_qchknq.webp",
+        aspectRatio: "3414 / 2727",
         link: "/projects/riel-studio",
     },
     {
         title: "UNBOXED MAGAZINE",
-        desc: "Editorial design for an independent print publication",
         type: "PUBLICATION",
         number: "02",
-        image: "https://framerusercontent.com/images/ffsi7UDabhT3r1SFPHNA1d6jzoQ.png?width=2679&height=3660",
-        bgImage: "https://framerusercontent.com/images/M0r6fURQ5FkQdunUsMueICk2HQ.jpg?scale-down-to=4096&width=6016&height=4016",
+        image: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/unboxed_magazine_psndx2.webp",
+        aspectRatio: "2679 / 3660",
         link: "/projects/unboxed-magazine",
     },
     {
         title: "DRESSING THE SCREEN",
-        desc: "Brand identity and print collateral for a film costume house",
         type: "BRANDING ∙ PRINT",
         number: "03",
-        image: "https://framerusercontent.com/images/gQ2RbcOSUKe2Yv7zo4nazX5XPT8.png?width=2525&height=1780",
-        bgImage: "https://framerusercontent.com/images/gCXPhc2sGmraq8HSXiyfQwAfOg.jpg?width=3456&height=5184",
+        image: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_cgi9uo.webp",
+        aspectRatio: "2525 / 1780",
         link: "/projects/dressing-the-screen",
     },
     {
         title: "DAZED MAGAZINE",
-        desc: "Cover and spread design for a quarterly fashion issue",
         type: "PUBLICATION",
         number: "04",
-        image: "https://framerusercontent.com/images/tERiXTL5NWm4D7Me4vaw3G9la4.png?width=2823&height=3678",
-        bgImage: "https://framerusercontent.com/images/tERiXTL5NWm4D7Me4vaw3G9la4.png?width=2823&height=3678",
+        image: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dazed_magazine_dphwdo.webp",
+        aspectRatio: "2823 / 3678",
         link: "/projects/dazed-magazine",
     },
 ]
@@ -209,6 +205,7 @@ export default function SelectedWork() {
                             ref={(el) => (itemRefs.current[i] = el)}
                             style={{
                                 width: "clamp(220px, 28vw, 420px)",
+                                aspectRatio: work.aspectRatio,
                                 overflow: "hidden",
                                 transition: "transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease",
                                 willChange: "transform, filter, opacity",
@@ -220,7 +217,7 @@ export default function SelectedWork() {
                             <img
                                 src={work.image}
                                 loading={i === baseWorks.length ? "eager" : "lazy"}
-                                style={{ width: "100%", height: "auto", display: "block" }}
+                                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                             />
                         </div>
                     )

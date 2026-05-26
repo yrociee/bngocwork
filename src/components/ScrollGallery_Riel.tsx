@@ -1,29 +1,29 @@
 import { useEffect, useRef, useState } from "react"
 
 const desktopMedia = [
-    { type: "video", src: "https://framerusercontent.com/assets/zN4Il7DzrVrecu608E8ImQOiAU.mp4", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/EwYqrpyT8liUrqmGQTK1J0404bI.png?scale-down-to=4096&width=4662&height=3031" },
-    { type: "image", src: "https://framerusercontent.com/images/WEnHvTpA4lrZNktJmJJpkIp9M.png?scale-down-to=4096&width=4662&height=3032" },
-    { type: "video", src: "https://framerusercontent.com/assets/8zhEKaltDEauXVUihJ06qWFoGd0.mp4", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/aYFM7B2ccAn0cuIYpGANQqAWWMA.png?scale-down-to=4096&width=4662&height=3030" },
-    { type: "video", src: "https://framerusercontent.com/assets/wY7L9AAG3BQvijt17sBbGuH1npk.mp4", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/mqJHIMjOyJgoPGLl80HnC9MS8s.png?scale-down-to=4096&width=4662&height=3032" },
-    { type: "image", src: "https://framerusercontent.com/images/8cSzWAJGZsdFkSP1MboiSyORtc.png?scale-down-to=4096&width=4662&height=3032", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/eMYi1CYiq7h3hyX3XFjMNedy7s.png?scale-down-to=4096&width=4662&height=3031", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/JhA0PwKRHz6BeoMVmJ44p2GlOg.png?scale-down-to=4096&width=4662&height=3030" },
+    { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/riel_studio_1_td06aw.mp4", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/riel_studio_2_ppssfh.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/riel_studio_3_ko6qel.webp" },
+    { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/riel_studio_4_d8yf2f.mp4", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/riel_studio_5_hi08wk.webp" },
+    { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/riel_studio_6_mk58ff.mp4", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/riel_studio_7_zlwpq0.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/riel_studio_8_zjysvo.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/riel_studio_9_nzcmtt.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/riel_studio_10_ieq6ue.webp" },
 ]
 
 const mobileMedia = [
-    { type: "video", src: "https://framerusercontent.com/assets/n9BtGWIcNV4WqeqJEXjYIkRLA3A.mp4", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/n6WuQcbGKXmBoKzOVzSflV9nXoI.png?width=3020&height=6566", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/IWDJedcUYo5ZLzIshrisH9GuPP8.png?width=3020&height=6566" },
-    { type: "video", src: "https://framerusercontent.com/assets/WxBdGPXbz877Dnj50UBTBALM0.mp4", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/GpMpDnrf0ahVLGMpdVkNJ5eprZo.png?width=3020&height=6566", fit: "cover" },
-    { type: "video", src: "https://framerusercontent.com/assets/e6MBinhVKrVmmkhKiT0i5Kb4RM.mp4", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/yjXkfbAUL1pFgZHbcDz0aymKWQ.png?width=3020&height=6566", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/DAtCzhahD39RLePNUVurDKc7c0.png?width=3020&height=6564", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/SHBGqU7sxnw3j6yHCjdKwaXqY.png?width=3020&height=6566", fit: "cover" },
-    { type: "image", src: "https://framerusercontent.com/images/FFJLUt6IXH3YYDWKuOvadeGuZlc.png?width=3020&height=6566", fit: "cover" },
+    { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/riel_studio_1_zuqx2n.mp4", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/riel_studio_2_snot3o.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/riel_studio_3_vxfitc.webp" },
+    { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/riel_studio_4_fpu6v2.mp4", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/riel_studio_5_bxfyzv.webp", fit: "cover" },
+    { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/riel_studio_6_np0wun.mp4", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/riel_studio_7_lyfa3t.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/riel_studio_8_mg4w7p.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/riel_studio_9_mgvy3e.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/riel_studio_10_iqwl4u.webp", fit: "cover" },
 ]
 
 export default function ScrollGallery_Riel() {
@@ -63,21 +63,24 @@ export default function ScrollGallery_Riel() {
     }, [current])
 
     useEffect(() => {
-    const tryPlay = () => {
-        const v = videoRefs.current.find((v) => v)
-        if (!v) return
-        v.load()
-        v.play().catch(() => {
-            const unlockVideo = () => {
-                v.play().catch(() => {})
-                window.removeEventListener("touchstart", unlockVideo)
+        const unlockVideo = () => {
+            const tryPlay = () => {
+                const v = videoRefs.current.find((v) => v)
+                if (!v) return
+                v.load()
+                v.play().catch(() => {
+                    const unlockVideo = () => {
+                        v.play().catch(() => {})
+                        window.removeEventListener("touchstart", unlockVideo)
+                    }
+                    window.addEventListener("touchstart", unlockVideo, { once: true })
+                })
             }
-            window.addEventListener("touchstart", unlockVideo, { once: true })
-        })
-    }
-    const timer = setTimeout(tryPlay, 500)
-    return () => clearTimeout(timer)
-}, [])
+            const timer = setTimeout(tryPlay, 500)
+            return () => clearTimeout(timer)
+        }
+        unlockVideo()
+    }, [])
 
     useEffect(() => {
         const onReset = () => setCurrent(0)
@@ -161,7 +164,7 @@ export default function ScrollGallery_Riel() {
                 {media.map((item, i) => (
                     <div key={i} style={{ width: "100%", height: "100svh", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
                         {item.type === "image" ? (
-                            <img src={item.src} style={{ width: "100%", height: "100%", objectFit: (item as any).fit ?? "contain", pointerEvents: "none", userSelect: "none", display: "block" }} />
+                            <img src={item.src} loading={i === 0 ? "eager" : "lazy"} style={{ width: "100%", height: "100%", objectFit: (item as any).fit ?? "contain", pointerEvents: "none", userSelect: "none", display: "block" }} />
                         ) : (
                             <video ref={(el) => { if (el) videoRefs.current[i] = el }} src={item.src} loop muted playsInline preload="auto" style={{ width: "100%", height: "100%", objectFit: "cover", pointerEvents: "none", display: "block" }} />
                         )}
