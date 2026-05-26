@@ -1,29 +1,29 @@
 import { useEffect, useRef, useState } from "react"
 
 const desktopMedia = [
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_1_fbsjgs.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_2_frukw9.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_3_iopmkc.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_4_hof8do.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_5_si7gel.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_6_hiivjp.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_7_zvraao.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_8_iyar8o.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799617/dressing_the_screen_1_fbsjgs.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799618/dressing_the_screen_2_frukw9.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799618/dressing_the_screen_3_iopmkc.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799620/dressing_the_screen_4_hof8do.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799623/dressing_the_screen_5_si7gel.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799621/dressing_the_screen_6_hiivjp.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799623/dressing_the_screen_7_zvraao.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799625/dressing_the_screen_8_iyar8o.webp" },
     { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/dressing_the_screen_9_bhh44r.mp4", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dressing_the_screen_10_nwaqtd.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799631/dressing_the_screen_10_nwaqtd.webp" },
 ]
 
 const mobileMedia = [
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_1_ljkrxd.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_2_nsn8ga.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_3_zvzhvc.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_4_k7glrw.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_5_yr8n8c.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_6_cwcrei.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_7_xl4eun.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_8_jx6ndm.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799764/dressing_the_screen_1_ljkrxd.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799767/dressing_the_screen_2_nsn8ga.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799768/dressing_the_screen_3_zvzhvc.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799771/dressing_the_screen_4_k7glrw.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799771/dressing_the_screen_5_yr8n8c.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799773/dressing_the_screen_6_cwcrei.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799775/dressing_the_screen_7_xl4eun.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799777/dressing_the_screen_8_jx6ndm.webp", fit: "cover" },
     { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/dressing_the_screen_9_nlf37c.mp4", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dressing_the_screen_10_v0iesc.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799781/dressing_the_screen_10_v0iesc.webp", fit: "cover" },
 ]
 
 export default function ScrollGallery_DressingTheScreen() {

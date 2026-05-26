@@ -1,23 +1,23 @@
 import { useEffect, useRef, useState } from "react"
 
 const desktopMedia = [
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dazed_magazine_1_prukzo.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dazed_magazine_2_zai3k7.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dazed_magazine_3_zcmekw.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dazed_magazine_4_scvvfj.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dazed_magazine_5_vhwf0n.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dazed_magazine_6_o90fg7.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/dazed_magazine_7_odtqcq.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799650/dazed_magazine_1_prukzo.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799652/dazed_magazine_2_zai3k7.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799652/dazed_magazine_3_zcmekw.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799656/dazed_magazine_4_scvvfj.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799653/dazed_magazine_5_vhwf0n.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799655/dazed_magazine_6_o90fg7.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799658/dazed_magazine_7_odtqcq.webp", fit: "cover" },
 ]
 
 const mobileMedia = [
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dazed_magazine_1_o2mdqj.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dazed_magazine_2_ancdhs.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dazed_magazine_3_wincak.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dazed_magazine_4_qsoaul.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dazed_magazine_5_bkbp0s.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dazed_magazine_6_hph3fn.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/dazed_magazine_7_ko5vv2.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799833/dazed_magazine_1_o2mdqj.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799834/dazed_magazine_2_ancdhs.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799835/dazed_magazine_3_wincak.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799837/dazed_magazine_4_qsoaul.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799839/dazed_magazine_5_bkbp0s.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799842/dazed_magazine_6_hph3fn.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799847/dazed_magazine_7_ko5vv2.webp", fit: "cover" },
 ]
 
 export default function ScrollGallery_Dazed() {

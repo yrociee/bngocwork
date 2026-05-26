@@ -2,22 +2,22 @@ import { useEffect, useRef, useState } from "react"
 
 const desktopMedia = [
     { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/unboxed_magazine_1_gc8cur.mp4", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/unboxed_magazine_2_b6xbhw.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/unboxed_magazine_3_cigqqr.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/unboxed_magazine_4_nzl3lu.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/unboxed_magazine_5_xtye7x.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799582/unboxed_magazine_2_b6xbhw.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799584/unboxed_magazine_3_cigqqr.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799584/unboxed_magazine_4_nzl3lu.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799585/unboxed_magazine_5_xtye7x.webp", fit: "cover" },
     { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/unboxed_magazine_6_csxify.mp4", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/unboxed_magazine_7_klmzag.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799586/unboxed_magazine_7_klmzag.webp", fit: "cover" },
 ]
 
 const mobileMedia = [
     { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/unboxed_magazine_1_h4vnuv.mp4", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/unboxed_magazine_2_yynp0r.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/unboxed_magazine_3_fd29ur.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/unboxed_magazine_4_o4eofd.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/unboxed_magazine_5_oi4feg.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799726/unboxed_magazine_2_yynp0r.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799728/unboxed_magazine_3_fd29ur.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799729/unboxed_magazine_4_o4eofd.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799732/unboxed_magazine_5_oi4feg.webp", fit: "cover" },
     { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/unboxed_magazine_6_yeijqf.mp4", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/unboxed_magazine_7_jneull.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799734/unboxed_magazine_7_jneull.webp", fit: "cover" },
 ]
 
 export default function ScrollGallery_Unboxed() {
