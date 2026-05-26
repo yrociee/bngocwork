@@ -2,28 +2,28 @@ import { useEffect, useRef, useState } from "react"
 
 const desktopMedia = [
     { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/riel_studio_1_td06aw.mp4", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/riel_studio_2_ppssfh.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/riel_studio_3_ko6qel.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799493/riel_studio_2_ppssfh.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799493/riel_studio_3_ko6qel.webp" },
     { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/riel_studio_4_d8yf2f.mp4", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/riel_studio_5_hi08wk.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799495/riel_studio_5_hi08wk.webp" },
     { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/riel_studio_6_mk58ff.mp4", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/riel_studio_7_zlwpq0.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/riel_studio_8_zjysvo.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/riel_studio_9_nzcmtt.webp" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_1200,f_auto,q_auto/riel_studio_10_ieq6ue.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799495/riel_studio_7_zlwpq0.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799496/riel_studio_8_zjysvo.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799496/riel_studio_9_nzcmtt.webp", fit: "cover"  },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799493/riel_studio_10_ieq6ue.webp" },
 ]
 
 const mobileMedia = [
     { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/riel_studio_1_zuqx2n.mp4", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/riel_studio_2_snot3o.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/riel_studio_3_vxfitc.webp" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799691/riel_studio_2_snot3o.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799692/riel_studio_3_vxfitc.webp" },
     { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/riel_studio_4_fpu6v2.mp4", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/riel_studio_5_bxfyzv.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799695/riel_studio_5_bxfyzv.webp", fit: "cover" },
     { type: "video", src: "https://res.cloudinary.com/doaofjidq/video/upload/q_auto/riel_studio_6_np0wun.mp4", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/riel_studio_7_lyfa3t.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/riel_studio_8_mg4w7p.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/riel_studio_9_mgvy3e.webp", fit: "cover" },
-    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/w_750,f_auto,q_auto/riel_studio_10_iqwl4u.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799699/riel_studio_7_lyfa3t.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799699/riel_studio_8_mg4w7p.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799701/riel_studio_9_mgvy3e.webp", fit: "cover" },
+    { type: "image", src: "https://res.cloudinary.com/doaofjidq/image/upload/v1779799702/riel_studio_10_iqwl4u.webp", fit: "cover" },
 ]
 
 export default function ScrollGallery_Riel() {
