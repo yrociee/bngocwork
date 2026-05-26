@@ -46,7 +46,6 @@ export default function SelectedWork_Mobile_Images() {
     const lastTouchY = useRef(0)
     const lastTouchTime = useRef(0)
     const animFrameRef = useRef<number | null>(null)
-    const snapTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
     const [mounted, setMounted] = useState(false)
 
     useEffect(() => {
@@ -107,30 +106,11 @@ export default function SelectedWork_Mobile_Images() {
             if (dist < closestDist) { closestDist = dist; closestIndex = i }
             const maxDist = screenH.current * 0.65
             const t = Math.max(0, 1 - dist / maxDist)
-            el.style.transform = `scale(${0.75 + t * 0.35})`
-            el.style.filter = `blur(${(1 - t) * 8}px)`
-            el.style.opacity = `${0.3 + t * 0.7}`
+            el.style.transform = `scale(${0.78 + t * 0.32})`
+            el.style.opacity = `${0.35 + t * 0.65}`
         })
         window.dispatchEvent(new CustomEvent("selectedwork_index", { detail: closestIndex % baseWorks.length }))
         return closestIndex
-    }
-
-    const snapToIndex = (index: number) => {
-        const el = itemRefs.current[index]
-        if (!el) return
-        const target = el.offsetTop - screenH.current / 2 + el.offsetHeight / 2
-        const start = scrollY.current
-        const duration = 900
-        const startTime = performance.now()
-        const animate = (now: number) => {
-            const t = Math.min((now - startTime) / duration, 1)
-            const ease = 1 - Math.pow(1 - t, 3)
-            const y = start + (target - start) * ease
-            applyScroll(y)
-            updateVisuals(y)
-            if (t < 1) requestAnimationFrame(animate)
-        }
-        requestAnimationFrame(animate)
     }
 
     useEffect(() => {
@@ -139,7 +119,6 @@ export default function SelectedWork_Mobile_Images() {
         const onTouchStart = (e: TouchEvent) => {
             if (overlayOpen.current) return
             if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
-            if (snapTimeout.current) clearTimeout(snapTimeout.current)
             touchStartY.current = e.touches[0].clientY
             touchStartScroll.current = scrollY.current
             lastTouchY.current = e.touches[0].clientY
@@ -163,18 +142,11 @@ export default function SelectedWork_Mobile_Images() {
 
         const onTouchEnd = () => {
             if (overlayOpen.current) return
-            let velocity = velocityY.current * 30
-            const decay = 0.85
+            let velocity = velocityY.current * 80
+            const decay = 0.92
 
             const momentum = () => {
-                if (Math.abs(velocity) < 0.5) {
-                    if (snapTimeout.current) clearTimeout(snapTimeout.current)
-                    snapTimeout.current = setTimeout(() => {
-                        const closest = updateVisuals(scrollY.current)
-                        snapToIndex(closest)
-                    }, 400)
-                    return
-                }
+                if (Math.abs(velocity) < 0.3) return
                 applyScroll(scrollY.current - velocity)
                 updateVisuals(scrollY.current)
                 velocity *= decay
@@ -223,7 +195,7 @@ export default function SelectedWork_Mobile_Images() {
                                     width: "clamp(200px, 65vw, 340px)",
                                     aspectRatio: work.aspectRatio,
                                     overflow: "hidden",
-                                    willChange: "transform, filter, opacity",
+                                    willChange: "transform, opacity",
                                     cursor: "pointer",
                                     pointerEvents: "auto",
                                     backfaceVisibility: "hidden",

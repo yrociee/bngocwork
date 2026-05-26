@@ -45,8 +45,8 @@ export default function SelectedWork() {
     const [loaded, setLoaded] = useState(false)
     const [infoOpen, setInfoOpen] = useState(false)
     const [isDesktop, setIsDesktop] = useState(false)
-    const isSnapping = useRef(false)
     const snapTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const isSnapping = useRef(false)
 
     useEffect(() => {
         const mq = window.matchMedia("(max-width: 808px)")
@@ -77,16 +77,6 @@ export default function SelectedWork() {
         }
     }, [])
 
-    const snapToIndex = (index: number) => {
-        const el = itemRefs.current[index]
-        if (!el) return
-        isSnapping.current = true
-        const rect = el.getBoundingClientRect()
-        const offset = rect.top + window.scrollY - window.innerHeight / 2 + rect.height / 2
-        window.scrollTo({ top: offset, behavior: "smooth" })
-        setTimeout(() => { isSnapping.current = false }, 1000)
-    }
-
     useEffect(() => {
         let ticking = false
         const onScroll = () => {
@@ -110,21 +100,10 @@ export default function SelectedWork() {
                         const dist = Math.abs(center - mid)
                         const maxDist = window.innerHeight * 0.65
                         const t = Math.max(0, 1 - dist / maxDist)
-                        el.style.transform = `scale(${0.75 + t * 0.35})`
-                        el.style.filter = `blur(${(1 - t) * 8}px)`
-                        el.style.opacity = `${0.3 + t * 0.7}`
+                        el.style.transform = `scale(${0.78 + t * 0.32})`
+                        el.style.filter = `blur(${(1 - t) * 6}px)`
+                        el.style.opacity = `${0.35 + t * 0.65}`
                     })
-                    if (snapTimeout.current) clearTimeout(snapTimeout.current)
-                    if (!isSnapping.current) {
-                        snapTimeout.current = setTimeout(() => {
-                            const el = itemRefs.current[closestIndex]
-                            if (!el) return
-                            const rect = el.getBoundingClientRect()
-                            const center = rect.top + rect.height / 2
-                            const dist = Math.abs(center - mid)
-                            if (dist > 8 && dist < rect.height * 1.5) snapToIndex(closestIndex)
-                        }, 600)
-                    }
                     ticking = false
                 })
                 ticking = true
@@ -207,7 +186,7 @@ export default function SelectedWork() {
                                 width: "clamp(220px, 28vw, 420px)",
                                 aspectRatio: work.aspectRatio,
                                 overflow: "hidden",
-                                transition: "transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease",
+                                transition: "transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease",
                                 willChange: "transform, filter, opacity",
                                 cursor: "pointer",
                                 pointerEvents: "auto",
