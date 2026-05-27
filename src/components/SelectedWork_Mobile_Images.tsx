@@ -81,9 +81,36 @@ export default function SelectedWork_Mobile_Images() {
             }))
         }
 
+        // Infinite loop — jump back instantly when near the edges
+        let loopTimeout: ReturnType<typeof setTimeout> | null = null
+        const handleLoop = () => {
+            if (loopTimeout) return
+            loopTimeout = setTimeout(() => {
+                const scrollY = window.scrollY
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+                const oneSet = maxScroll / 3
+                if (scrollY > oneSet * 2) {
+                    document.documentElement.style.scrollBehavior = "auto"
+                    window.scrollTo({ top: scrollY - oneSet, behavior: "instant" as ScrollBehavior })
+                    document.documentElement.style.scrollBehavior = ""
+                }
+                if (scrollY < oneSet * 0.3) {
+                    document.documentElement.style.scrollBehavior = "auto"
+                    window.scrollTo({ top: scrollY + oneSet, behavior: "instant" as ScrollBehavior })
+                    document.documentElement.style.scrollBehavior = ""
+                }
+                loopTimeout = null
+            }, 50)
+        }
+
         window.addEventListener("scroll", update, { passive: true })
+        window.addEventListener("scroll", handleLoop, { passive: true })
         update()
-        return () => window.removeEventListener("scroll", update)
+        return () => {
+            window.removeEventListener("scroll", update)
+            window.removeEventListener("scroll", handleLoop)
+            if (loopTimeout) clearTimeout(loopTimeout)
+        }
     }, [mounted, isMobile])
 
     useEffect(() => {
