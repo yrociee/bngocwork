@@ -33,7 +33,6 @@ export default function SelectedWork_Mobile_Labels() {
     }, [])
 
     useEffect(() => {
-        // Always wait for loadingdone — never skip
         const onDone = () => setLoaded(true)
         window.addEventListener("loadingdone", onDone)
         return () => window.removeEventListener("loadingdone", onDone)
@@ -77,7 +76,7 @@ export default function SelectedWork_Mobile_Labels() {
     return createPortal(
         <div style={{
             position: "fixed",
-            top: "50%",
+            top: "50svh",
             left: "10px",
             right: "10px",
             transform: "translateY(-50%)",

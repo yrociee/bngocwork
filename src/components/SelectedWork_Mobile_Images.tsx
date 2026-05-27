@@ -46,7 +46,6 @@ export default function SelectedWork_Mobile_Images() {
         setIsMobile(window.innerWidth <= 808)
     }, [])
 
-    // Unlock native scroll on mobile
     useEffect(() => {
         if (!mounted || !isMobile) return
         document.body.style.overflow = ""
@@ -56,12 +55,12 @@ export default function SelectedWork_Mobile_Images() {
         document.documentElement.style.height = ""
     }, [mounted, isMobile])
 
-    // Track scroll and update visuals
     useEffect(() => {
         if (!mounted || !isMobile) return
 
         const update = () => {
-            const mid = window.innerHeight / 2
+            const svh = window.visualViewport?.height ?? window.innerHeight
+            const mid = svh / 2
             let closestIndex = 0
             let closestDist = Infinity
 
@@ -72,7 +71,7 @@ export default function SelectedWork_Mobile_Images() {
                 const dist = Math.abs(center - mid)
                 if (dist < closestDist) { closestDist = dist; closestIndex = i }
 
-                const maxDist = window.innerHeight * 0.7
+                const maxDist = svh * 0.7
                 const t = Math.max(0, 1 - dist / maxDist)
                 el.style.transform = `scale(${0.78 + t * 0.32})`
                 el.style.filter = `blur(${(1 - t) * 7}px)`
@@ -90,14 +89,14 @@ export default function SelectedWork_Mobile_Images() {
         return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
     }, [mounted, isMobile])
 
-    // Center on Riel on load
     useEffect(() => {
         if (!mounted || !isMobile) return
         const centerFirst = () => {
             const el = itemRefs.current[baseWorks.length]
             if (!el) return
+            const svh = window.visualViewport?.height ?? window.innerHeight
             const rect = el.getBoundingClientRect()
-            const offset = rect.top + window.scrollY - window.innerHeight / 2 + rect.height / 2
+            const offset = rect.top + window.scrollY - svh / 2 + rect.height / 2
             window.scrollTo({ top: offset, behavior: "instant" as ScrollBehavior })
         }
         setTimeout(centerFirst, 200)
@@ -108,7 +107,7 @@ export default function SelectedWork_Mobile_Images() {
     if (!mounted || !isMobile) return null
 
     return (
-        <div style={{ width: "100%", paddingTop: "50vh", paddingBottom: "50vh" }}>
+        <div style={{ width: "100%", paddingTop: "50svh", paddingBottom: "50svh" }}>
             <div style={{
                 display: "flex",
                 flexDirection: "column",
