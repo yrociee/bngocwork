@@ -126,7 +126,7 @@ export default function InfoOverlay() {
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }} onClick={stopProp}>
                 <p style={{ ...small }}>©2026 Bao Ngoc, All Rights Reserved</p>
-                <p style={{ ...small, textAlign: "right" }}>Last updated at 01:47:02 (GMT +7) Monday 25 May 2026</p>
+                <p style={{ ...small, textAlign: "right" }}>Last updated at 23:02:38 (GMT +7) Wednesday 27 May 2026</p>
             </div>
         </div>
     )
