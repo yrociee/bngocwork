@@ -107,6 +107,7 @@ export default function SelectedWork_Mobile_Images() {
             const maxDist = screenH.current * 0.65
             const t = Math.max(0, 1 - dist / maxDist)
             el.style.transform = `scale(${0.78 + t * 0.32})`
+            el.style.filter = `blur(${(1 - t) * 6}px)`
             el.style.opacity = `${0.35 + t * 0.65}`
         })
         window.dispatchEvent(new CustomEvent("selectedwork_index", { detail: closestIndex % baseWorks.length }))
@@ -142,8 +143,8 @@ export default function SelectedWork_Mobile_Images() {
 
         const onTouchEnd = () => {
             if (overlayOpen.current) return
-            let velocity = velocityY.current * 80
-            const decay = 0.92
+            let velocity = velocityY.current * 40
+            const decay = 0.88
 
             const momentum = () => {
                 if (Math.abs(velocity) < 0.3) return
@@ -195,7 +196,7 @@ export default function SelectedWork_Mobile_Images() {
                                     width: "clamp(200px, 65vw, 340px)",
                                     aspectRatio: work.aspectRatio,
                                     overflow: "hidden",
-                                    willChange: "transform, opacity",
+                                    willChange: "transform, filter, opacity",
                                     cursor: "pointer",
                                     pointerEvents: "auto",
                                     backfaceVisibility: "hidden",
