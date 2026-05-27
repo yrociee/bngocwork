@@ -38,15 +38,17 @@ const IMG_WIDTH = "clamp(200px, 65vw, 340px)"
 export default function SelectedWork_Mobile_Images() {
     const containerRef = useRef<HTMLDivElement>(null)
     const itemRefs = useRef<(HTMLDivElement | null)[]>([])
-    const scrollY = useRef(0)
+    const posY = useRef(0)
+    const targetY = useRef(0)
     const touchStartY = useRef(0)
-    const touchStartScroll = useRef(0)
-    const velocityY = useRef(0)
+    const touchStartPos = useRef(0)
     const lastTouchY = useRef(0)
     const lastTouchTime = useRef(0)
-    const animFrameRef = useRef<number | null>(null)
+    const velocityY = useRef(0)
+    const rafRef = useRef<number | null>(null)
     const screenH = useRef(0)
     const overlayOpen = useRef(false)
+    const isTouching = useRef(false)
     const [mounted, setMounted] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
 
@@ -56,7 +58,6 @@ export default function SelectedWork_Mobile_Images() {
         screenH.current = window.visualViewport?.height ?? window.innerHeight
     }, [])
 
-    // Lock native scroll on mobile
     useEffect(() => {
         if (!mounted || !isMobile) return
         const style = document.createElement("style")
@@ -66,10 +67,9 @@ export default function SelectedWork_Mobile_Images() {
                 position: fixed !important;
                 width: 100% !important;
                 height: 100% !important;
-                overscroll-behavior: none !important;
+                touch-action: none !important;
             }
             ::-webkit-scrollbar { display: none; }
-            * { scrollbar-width: none; }
         `
         document.head.appendChild(style)
         return () => document.head.removeChild(style)
@@ -86,27 +86,24 @@ export default function SelectedWork_Mobile_Images() {
         }
     }, [])
 
-    const getMaxScroll = () => {
-        if (!containerRef.current) return 0
-        return containerRef.current.scrollHeight - screenH.current
-    }
+    const getContainerHeight = () => containerRef.current?.scrollHeight ?? 0
 
-    const applyScroll = (y: number) => {
-        if (!containerRef.current) return
-        const maxScroll = getMaxScroll()
-        const oneSet = maxScroll / 3
-        // Loop instantly — no visible jump
+    const loopY = (y: number) => {
+        const h = getContainerHeight()
+        const oneSet = h / 3
         if (y > oneSet * 2) y -= oneSet
         if (y < oneSet * 0.5) y += oneSet
-        y = Math.max(0, Math.min(y, maxScroll))
-        scrollY.current = y
-        containerRef.current.style.transform = `translateY(-${y}px)`
+        return y
     }
 
     const updateVisuals = (y: number) => {
+        if (!containerRef.current) return
+        containerRef.current.style.transform = `translateY(-${y}px)`
+
         const mid = screenH.current / 2
         let closestIndex = 0
         let closestDist = Infinity
+
         itemRefs.current.forEach((el, i) => {
             if (!el) return
             const center = el.offsetTop - y + el.offsetHeight / 2
@@ -118,20 +115,46 @@ export default function SelectedWork_Mobile_Images() {
             el.style.filter = `blur(${(1 - t) * 7}px)`
             el.style.opacity = `${0.3 + t * 0.7}`
         })
+
         window.dispatchEvent(new CustomEvent("selectedwork_index", {
             detail: closestIndex % baseWorks.length
         }))
-        return closestIndex
     }
+
+    // Smooth lerp animation loop
+    useEffect(() => {
+        if (!mounted || !isMobile) return
+
+        const tick = () => {
+            if (!isTouching.current) {
+                // Apply momentum
+                targetY.current += velocityY.current
+                velocityY.current *= 0.92
+                if (Math.abs(velocityY.current) < 0.1) velocityY.current = 0
+            }
+
+            // Lerp toward target
+            const ease = 0.12
+            posY.current += (targetY.current - posY.current) * ease
+            posY.current = loopY(posY.current)
+            targetY.current = loopY(targetY.current)
+
+            updateVisuals(posY.current)
+            rafRef.current = requestAnimationFrame(tick)
+        }
+
+        rafRef.current = requestAnimationFrame(tick)
+        return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
+    }, [mounted, isMobile])
 
     useEffect(() => {
         if (!mounted || !isMobile) return
 
         const onTouchStart = (e: TouchEvent) => {
             if (overlayOpen.current) return
-            if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
+            isTouching.current = true
             touchStartY.current = e.touches[0].clientY
-            touchStartScroll.current = scrollY.current
+            touchStartPos.current = targetY.current
             lastTouchY.current = e.touches[0].clientY
             lastTouchTime.current = Date.now()
             velocityY.current = 0
@@ -142,28 +165,18 @@ export default function SelectedWork_Mobile_Images() {
             e.preventDefault()
             const now = Date.now()
             const dt = now - lastTouchTime.current
-            const dy = e.touches[0].clientY - lastTouchY.current
-            if (dt > 0) velocityY.current = dy / dt
+            const dy = lastTouchY.current - e.touches[0].clientY
+            if (dt > 0) velocityY.current = dy / dt * 16
             lastTouchY.current = e.touches[0].clientY
             lastTouchTime.current = now
             const diff = touchStartY.current - e.touches[0].clientY
-            applyScroll(touchStartScroll.current + diff)
-            updateVisuals(scrollY.current)
+            targetY.current = touchStartPos.current + diff
         }
 
         const onTouchEnd = () => {
             if (overlayOpen.current) return
-            let velocity = velocityY.current * 80
-            const decay = 0.92
-
-            const momentum = () => {
-                if (Math.abs(velocity) < 0.3) return
-                applyScroll(scrollY.current - velocity)
-                updateVisuals(scrollY.current)
-                velocity *= decay
-                animFrameRef.current = requestAnimationFrame(momentum)
-            }
-            animFrameRef.current = requestAnimationFrame(momentum)
+            isTouching.current = false
+            // velocity already set during move, momentum continues in tick
         }
 
         window.addEventListener("touchstart", onTouchStart, { passive: true })
@@ -176,14 +189,15 @@ export default function SelectedWork_Mobile_Images() {
         }
     }, [mounted, isMobile])
 
+    // Center on Riel on load
     useEffect(() => {
         if (!mounted || !isMobile) return
         const centerFirst = () => {
             const el = itemRefs.current[baseWorks.length]
             if (!el) return
-            const target = el.offsetTop - screenH.current / 2 + el.offsetHeight / 2
-            applyScroll(target)
-            updateVisuals(target)
+            const y = el.offsetTop - screenH.current / 2 + el.offsetHeight / 2
+            posY.current = y
+            targetY.current = y
         }
         setTimeout(centerFirst, 200)
         window.addEventListener("loadingdone", centerFirst, { once: true })
@@ -201,17 +215,13 @@ export default function SelectedWork_Mobile_Images() {
             height: "100%",
             overflow: "hidden",
         }}>
-            <div
-                ref={containerRef}
-                style={{ width: "100%", willChange: "transform" }}
-            >
+            <div ref={containerRef} style={{ width: "100%", willChange: "transform" }}>
                 <div style={{ height: screenH.current }} />
                 <div style={{
                     display: "flex",
                     flexDirection: "column",
                     gap: `${ITEM_GAP}px`,
                     alignItems: "center",
-                    pointerEvents: "auto",
                 }}>
                     {works.map((_, i) => {
                         const work = baseWorks[i % baseWorks.length]
@@ -229,8 +239,6 @@ export default function SelectedWork_Mobile_Images() {
                                     transform: "scale(0.78)",
                                     filter: "blur(7px)",
                                     opacity: "0.3",
-                                    backfaceVisibility: "hidden",
-                                    WebkitBackfaceVisibility: "hidden" as any,
                                 }}
                                 onClick={() => { window.location.href = work.link }}
                             >
