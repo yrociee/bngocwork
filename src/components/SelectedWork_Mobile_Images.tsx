@@ -49,6 +49,7 @@ export default function SelectedWork_Mobile_Images() {
     const screenH = useRef(0)
     const overlayOpen = useRef(false)
     const isTouching = useRef(false)
+    const oneSetRef = useRef(0)
     const [mounted, setMounted] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
 
@@ -86,8 +87,6 @@ export default function SelectedWork_Mobile_Images() {
         }
     }, [])
 
-    const getContainerHeight = () => containerRef.current?.scrollHeight ?? 0
-
     const updateVisuals = (y: number) => {
         if (!containerRef.current) return
         containerRef.current.style.transform = `translateY(-${y}px)`
@@ -113,35 +112,36 @@ export default function SelectedWork_Mobile_Images() {
         }))
     }
 
-    // Smooth lerp animation loop
     useEffect(() => {
         if (!mounted || !isMobile) return
 
         const tick = () => {
-    if (!isTouching.current) {
-        targetY.current += velocityY.current
-        velocityY.current *= 0.92
-        if (Math.abs(velocityY.current) < 0.1) velocityY.current = 0
-    }
+            // Apply momentum when not touching
+            if (!isTouching.current) {
+                targetY.current += velocityY.current
+                velocityY.current *= 0.92
+                if (Math.abs(velocityY.current) < 0.1) velocityY.current = 0
+            }
 
-    const ease = 0.12
-    posY.current += (targetY.current - posY.current) * ease
+            // Lerp posY toward targetY
+            posY.current += (targetY.current - posY.current) * 0.12
 
-    // Only loop posY, keep targetY in sync after loop
-    const h = getContainerHeight()
-    const oneSet = h / 3
-    if (posY.current > oneSet * 2) {
-        posY.current -= oneSet
-        targetY.current -= oneSet
-    }
-    if (posY.current < oneSet * 0.5) {
-        posY.current += oneSet
-        targetY.current += oneSet
-    }
+            // Loop both together so they stay in sync — no visible jump
+            const oneSet = oneSetRef.current
+            if (oneSet > 0) {
+                if (posY.current > oneSet * 2) {
+                    posY.current -= oneSet
+                    targetY.current -= oneSet
+                }
+                if (posY.current < oneSet * 0.5) {
+                    posY.current += oneSet
+                    targetY.current += oneSet
+                }
+            }
 
-    updateVisuals(posY.current)
-    rafRef.current = requestAnimationFrame(tick)
-}
+            updateVisuals(posY.current)
+            rafRef.current = requestAnimationFrame(tick)
+        }
 
         rafRef.current = requestAnimationFrame(tick)
         return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
@@ -166,7 +166,7 @@ export default function SelectedWork_Mobile_Images() {
             const now = Date.now()
             const dt = now - lastTouchTime.current
             const dy = lastTouchY.current - e.touches[0].clientY
-            if (dt > 0) velocityY.current = dy / dt * 16
+            if (dt > 0) velocityY.current = (dy / dt) * 16
             lastTouchY.current = e.touches[0].clientY
             lastTouchTime.current = now
             const diff = touchStartY.current - e.touches[0].clientY
@@ -176,7 +176,6 @@ export default function SelectedWork_Mobile_Images() {
         const onTouchEnd = () => {
             if (overlayOpen.current) return
             isTouching.current = false
-            // velocity already set during move, momentum continues in tick
         }
 
         window.addEventListener("touchstart", onTouchStart, { passive: true })
@@ -189,19 +188,34 @@ export default function SelectedWork_Mobile_Images() {
         }
     }, [mounted, isMobile])
 
-    // Center on Riel on load
     useEffect(() => {
         if (!mounted || !isMobile) return
         const centerFirst = () => {
             const el = itemRefs.current[baseWorks.length]
             if (!el) return
+            // Calculate oneSet after render
+            if (containerRef.current) {
+                oneSetRef.current = containerRef.current.scrollHeight / 3
+            }
             const y = el.offsetTop - screenH.current / 2 + el.offsetHeight / 2
             posY.current = y
             targetY.current = y
+            updateVisuals(y)
         }
         setTimeout(centerFirst, 200)
         window.addEventListener("loadingdone", centerFirst, { once: true })
         return () => window.removeEventListener("loadingdone", centerFirst)
+    }, [mounted, isMobile])
+
+    // Set oneSet after items render
+    useEffect(() => {
+        if (!mounted || !isMobile) return
+        const timer = setTimeout(() => {
+            if (containerRef.current) {
+                oneSetRef.current = containerRef.current.scrollHeight / 3
+            }
+        }, 300)
+        return () => clearTimeout(timer)
     }, [mounted, isMobile])
 
     if (!mounted || !isMobile) return null
