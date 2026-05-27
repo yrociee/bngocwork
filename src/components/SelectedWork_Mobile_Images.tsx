@@ -126,22 +126,30 @@ export default function SelectedWork_Mobile_Images() {
         if (!mounted || !isMobile) return
 
         const tick = () => {
-            if (!isTouching.current) {
-                // Apply momentum
-                targetY.current += velocityY.current
-                velocityY.current *= 0.92
-                if (Math.abs(velocityY.current) < 0.1) velocityY.current = 0
-            }
+    if (!isTouching.current) {
+        targetY.current += velocityY.current
+        velocityY.current *= 0.92
+        if (Math.abs(velocityY.current) < 0.1) velocityY.current = 0
+    }
 
-            // Lerp toward target
-            const ease = 0.12
-            posY.current += (targetY.current - posY.current) * ease
-            posY.current = loopY(posY.current)
-            targetY.current = loopY(targetY.current)
+    const ease = 0.12
+    posY.current += (targetY.current - posY.current) * ease
 
-            updateVisuals(posY.current)
-            rafRef.current = requestAnimationFrame(tick)
-        }
+    // Only loop posY, keep targetY in sync after loop
+    const h = getContainerHeight()
+    const oneSet = h / 3
+    if (posY.current > oneSet * 2) {
+        posY.current -= oneSet
+        targetY.current -= oneSet
+    }
+    if (posY.current < oneSet * 0.5) {
+        posY.current += oneSet
+        targetY.current += oneSet
+    }
+
+    updateVisuals(posY.current)
+    rafRef.current = requestAnimationFrame(tick)
+}
 
         rafRef.current = requestAnimationFrame(tick)
         return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
