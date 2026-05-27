@@ -88,14 +88,6 @@ export default function SelectedWork_Mobile_Images() {
 
     const getContainerHeight = () => containerRef.current?.scrollHeight ?? 0
 
-    const loopY = (y: number) => {
-        const h = getContainerHeight()
-        const oneSet = h / 3
-        if (y > oneSet * 2) y -= oneSet
-        if (y < oneSet * 0.5) y += oneSet
-        return y
-    }
-
     const updateVisuals = (y: number) => {
         if (!containerRef.current) return
         containerRef.current.style.transform = `translateY(-${y}px)`
