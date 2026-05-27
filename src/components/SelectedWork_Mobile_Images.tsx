@@ -32,63 +32,62 @@ const baseWorks = [
 ]
 
 const works = [...baseWorks, ...baseWorks, ...baseWorks]
+const ITEM_GAP = 80
+const IMG_WIDTH = "clamp(200px, 65vw, 340px)"
 
 export default function SelectedWork_Mobile_Images() {
-    const containerRef = useRef<HTMLDivElement>(null)
     const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+    const rafRef = useRef<number | null>(null)
     const [isMobile, setIsMobile] = useState(false)
     const [mounted, setMounted] = useState(false)
-    const overlayOpen = useRef(false)
 
     useEffect(() => {
         setMounted(true)
         setIsMobile(window.innerWidth <= 808)
     }, [])
 
+    // Unlock native scroll on mobile
     useEffect(() => {
-        const onOpen = () => { overlayOpen.current = true }
-        const onClose = () => { overlayOpen.current = false }
-        window.addEventListener("overlayopen", onOpen)
-        window.addEventListener("overlayclose", onClose)
-        return () => {
-            window.removeEventListener("overlayopen", onOpen)
-            window.removeEventListener("overlayclose", onClose)
-        }
-    }, [])
+        if (!mounted || !isMobile) return
+        document.body.style.overflow = ""
+        document.body.style.position = ""
+        document.body.style.height = ""
+        document.documentElement.style.overflow = ""
+        document.documentElement.style.height = ""
+    }, [mounted, isMobile])
 
-    // IntersectionObserver — updates blur/scale/opacity as images enter center
+    // Track scroll and update visuals
     useEffect(() => {
         if (!mounted || !isMobile) return
 
-        const options = {
-            root: containerRef.current,
-            rootMargin: "0px",
-            threshold: Array.from({ length: 101 }, (_, i) => i / 100),
+        const update = () => {
+            const mid = window.innerHeight / 2
+            let closestIndex = 0
+            let closestDist = Infinity
+
+            itemRefs.current.forEach((el, i) => {
+                if (!el) return
+                const rect = el.getBoundingClientRect()
+                const center = rect.top + rect.height / 2
+                const dist = Math.abs(center - mid)
+                if (dist < closestDist) { closestDist = dist; closestIndex = i }
+
+                const maxDist = window.innerHeight * 0.7
+                const t = Math.max(0, 1 - dist / maxDist)
+                el.style.transform = `scale(${0.78 + t * 0.32})`
+                el.style.filter = `blur(${(1 - t) * 7}px)`
+                el.style.opacity = `${0.3 + t * 0.7}`
+            })
+
+            window.dispatchEvent(new CustomEvent("selectedwork_index", {
+                detail: closestIndex % baseWorks.length
+            }))
+
+            rafRef.current = requestAnimationFrame(update)
         }
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                const el = entry.target as HTMLElement
-                const t = entry.intersectionRatio
-                el.style.transform = `scale(${0.78 + t * 0.32})`
-                el.style.filter = `blur(${(1 - t) * 6}px)`
-                el.style.opacity = `${0.35 + t * 0.65}`
-                if (t > 0.8) {
-                    const index = itemRefs.current.indexOf(el as HTMLDivElement)
-                    if (index !== -1) {
-                        window.dispatchEvent(new CustomEvent("selectedwork_index", {
-                            detail: index % baseWorks.length
-                        }))
-                    }
-                }
-            })
-        }, options)
-
-        itemRefs.current.forEach((el) => {
-            if (el) observer.observe(el)
-        })
-
-        return () => observer.disconnect()
+        rafRef.current = requestAnimationFrame(update)
+        return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
     }, [mounted, isMobile])
 
     // Center on Riel on load
@@ -96,11 +95,12 @@ export default function SelectedWork_Mobile_Images() {
         if (!mounted || !isMobile) return
         const centerFirst = () => {
             const el = itemRefs.current[baseWorks.length]
-            const container = containerRef.current
-            if (!el || !container) return
-            container.scrollTop = el.offsetTop - container.clientHeight / 2 + el.offsetHeight / 2
+            if (!el) return
+            const rect = el.getBoundingClientRect()
+            const offset = rect.top + window.scrollY - window.innerHeight / 2 + rect.height / 2
+            window.scrollTo({ top: offset, behavior: "instant" as ScrollBehavior })
         }
-        setTimeout(centerFirst, 150)
+        setTimeout(centerFirst, 200)
         window.addEventListener("loadingdone", centerFirst, { once: true })
         return () => window.removeEventListener("loadingdone", centerFirst)
     }, [mounted, isMobile])
@@ -108,27 +108,13 @@ export default function SelectedWork_Mobile_Images() {
     if (!mounted || !isMobile) return null
 
     return (
-        <div
-            ref={containerRef}
-            style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                overflowY: "scroll",
-                overflowX: "hidden",
-                WebkitOverflowScrolling: "touch" as any,
-                scrollSnapType: "y proximity",
-                msOverflowStyle: "none",
-                scrollbarWidth: "none",
-            }}
-        >
-            <style>{`
-                div[data-scroll-container]::-webkit-scrollbar { display: none; }
-            `}</style>
-            <div style={{ height: "50vh" }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "80px", alignItems: "center" }}>
+        <div style={{ width: "100%", paddingTop: "50vh", paddingBottom: "50vh" }}>
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: `${ITEM_GAP}px`,
+                alignItems: "center",
+            }}>
                 {works.map((_, i) => {
                     const work = baseWorks[i % baseWorks.length]
                     return (
@@ -136,17 +122,15 @@ export default function SelectedWork_Mobile_Images() {
                             key={i}
                             ref={(el) => (itemRefs.current[i] = el)}
                             style={{
-                                width: "clamp(200px, 65vw, 340px)",
+                                width: IMG_WIDTH,
                                 aspectRatio: work.aspectRatio,
                                 overflow: "hidden",
-                                scrollSnapAlign: "center",
                                 willChange: "transform, filter, opacity",
                                 cursor: "pointer",
                                 flexShrink: 0,
                                 transform: "scale(0.78)",
-                                filter: "blur(6px)",
-                                opacity: "0.35",
-                                transition: "transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease",
+                                filter: "blur(7px)",
+                                opacity: "0.3",
                             }}
                             onClick={() => { window.location.href = work.link }}
                         >
@@ -159,7 +143,6 @@ export default function SelectedWork_Mobile_Images() {
                     )
                 })}
             </div>
-            <div style={{ height: "50vh" }} />
         </div>
     )
 }
