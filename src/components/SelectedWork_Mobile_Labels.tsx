@@ -89,9 +89,10 @@ export default function SelectedWork_Mobile_Labels() {
             mixBlendMode: "difference",
             opacity: labelVisible ? 1 : 0,
             transition: "opacity 0.4s ease",
+            overflow: "hidden",
         }}>
-            <p style={{ ...base }}>{w.title}</p>
-            <p style={{ ...base, opacity: 0.35 }}>{w.type}</p>
+            <p style={{ ...base, flexShrink: 1, minWidth: 0, overflow: "hidden" }}>{w.title}</p>
+            <p style={{ ...base, opacity: 0.35, flexShrink: 0, marginLeft: "8px" }}>{w.type}</p>
         </div>,
         overlayRef.current
     )

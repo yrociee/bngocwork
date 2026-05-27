@@ -37,7 +37,6 @@ const IMG_WIDTH = "clamp(200px, 65vw, 340px)"
 
 export default function SelectedWork_Mobile_Images() {
     const itemRefs = useRef<(HTMLDivElement | null)[]>([])
-    const rafRef = useRef<number | null>(null)
     const [isMobile, setIsMobile] = useState(false)
     const [mounted, setMounted] = useState(false)
 
@@ -70,7 +69,6 @@ export default function SelectedWork_Mobile_Images() {
                 const center = rect.top + rect.height / 2
                 const dist = Math.abs(center - mid)
                 if (dist < closestDist) { closestDist = dist; closestIndex = i }
-
                 const maxDist = svh * 0.7
                 const t = Math.max(0, 1 - dist / maxDist)
                 el.style.transform = `scale(${0.78 + t * 0.32})`
@@ -81,12 +79,11 @@ export default function SelectedWork_Mobile_Images() {
             window.dispatchEvent(new CustomEvent("selectedwork_index", {
                 detail: closestIndex % baseWorks.length
             }))
-
-            rafRef.current = requestAnimationFrame(update)
         }
 
-        rafRef.current = requestAnimationFrame(update)
-        return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
+        window.addEventListener("scroll", update, { passive: true })
+        update()
+        return () => window.removeEventListener("scroll", update)
     }, [mounted, isMobile])
 
     useEffect(() => {
