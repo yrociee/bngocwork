@@ -36,80 +36,143 @@ const ITEM_GAP = 80
 const IMG_WIDTH = "clamp(200px, 65vw, 340px)"
 
 export default function SelectedWork_Mobile_Images() {
+    const containerRef = useRef<HTMLDivElement>(null)
     const itemRefs = useRef<(HTMLDivElement | null)[]>([])
-    const [isMobile, setIsMobile] = useState(false)
+    const scrollY = useRef(0)
+    const touchStartY = useRef(0)
+    const touchStartScroll = useRef(0)
+    const velocityY = useRef(0)
+    const lastTouchY = useRef(0)
+    const lastTouchTime = useRef(0)
+    const animFrameRef = useRef<number | null>(null)
+    const screenH = useRef(0)
+    const overlayOpen = useRef(false)
     const [mounted, setMounted] = useState(false)
+    const [isMobile, setIsMobile] = useState(false)
 
     useEffect(() => {
         setMounted(true)
         setIsMobile(window.innerWidth <= 808)
+        screenH.current = window.visualViewport?.height ?? window.innerHeight
     }, [])
 
+    // Lock native scroll on mobile
     useEffect(() => {
         if (!mounted || !isMobile) return
-        document.body.style.overflow = ""
-        document.body.style.position = ""
-        document.body.style.height = ""
-        document.documentElement.style.overflow = ""
-        document.documentElement.style.height = ""
+        const style = document.createElement("style")
+        style.textContent = `
+            html, body {
+                overflow: hidden !important;
+                position: fixed !important;
+                width: 100% !important;
+                height: 100% !important;
+                overscroll-behavior: none !important;
+            }
+            ::-webkit-scrollbar { display: none; }
+            * { scrollbar-width: none; }
+        `
+        document.head.appendChild(style)
+        return () => document.head.removeChild(style)
     }, [mounted, isMobile])
 
     useEffect(() => {
+        const onOpen = () => { overlayOpen.current = true }
+        const onClose = () => { overlayOpen.current = false }
+        window.addEventListener("overlayopen", onOpen)
+        window.addEventListener("overlayclose", onClose)
+        return () => {
+            window.removeEventListener("overlayopen", onOpen)
+            window.removeEventListener("overlayclose", onClose)
+        }
+    }, [])
+
+    const getMaxScroll = () => {
+        if (!containerRef.current) return 0
+        return containerRef.current.scrollHeight - screenH.current
+    }
+
+    const applyScroll = (y: number) => {
+        if (!containerRef.current) return
+        const maxScroll = getMaxScroll()
+        const oneSet = maxScroll / 3
+        // Loop instantly — no visible jump
+        if (y > oneSet * 2) y -= oneSet
+        if (y < oneSet * 0.5) y += oneSet
+        y = Math.max(0, Math.min(y, maxScroll))
+        scrollY.current = y
+        containerRef.current.style.transform = `translateY(-${y}px)`
+    }
+
+    const updateVisuals = (y: number) => {
+        const mid = screenH.current / 2
+        let closestIndex = 0
+        let closestDist = Infinity
+        itemRefs.current.forEach((el, i) => {
+            if (!el) return
+            const center = el.offsetTop - y + el.offsetHeight / 2
+            const dist = Math.abs(center - mid)
+            if (dist < closestDist) { closestDist = dist; closestIndex = i }
+            const maxDist = screenH.current * 0.7
+            const t = Math.max(0, 1 - dist / maxDist)
+            el.style.transform = `scale(${0.78 + t * 0.32})`
+            el.style.filter = `blur(${(1 - t) * 7}px)`
+            el.style.opacity = `${0.3 + t * 0.7}`
+        })
+        window.dispatchEvent(new CustomEvent("selectedwork_index", {
+            detail: closestIndex % baseWorks.length
+        }))
+        return closestIndex
+    }
+
+    useEffect(() => {
         if (!mounted || !isMobile) return
 
-        const update = () => {
-            const svh = window.visualViewport?.height ?? window.innerHeight
-            const mid = svh / 2
-            let closestIndex = 0
-            let closestDist = Infinity
-
-            itemRefs.current.forEach((el, i) => {
-                if (!el) return
-                const rect = el.getBoundingClientRect()
-                const center = rect.top + rect.height / 2
-                const dist = Math.abs(center - mid)
-                if (dist < closestDist) { closestDist = dist; closestIndex = i }
-                const maxDist = svh * 0.7
-                const t = Math.max(0, 1 - dist / maxDist)
-                el.style.transform = `scale(${0.78 + t * 0.32})`
-                el.style.filter = `blur(${(1 - t) * 7}px)`
-                el.style.opacity = `${0.3 + t * 0.7}`
-            })
-
-            window.dispatchEvent(new CustomEvent("selectedwork_index", {
-                detail: closestIndex % baseWorks.length
-            }))
+        const onTouchStart = (e: TouchEvent) => {
+            if (overlayOpen.current) return
+            if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
+            touchStartY.current = e.touches[0].clientY
+            touchStartScroll.current = scrollY.current
+            lastTouchY.current = e.touches[0].clientY
+            lastTouchTime.current = Date.now()
+            velocityY.current = 0
         }
 
-        // Infinite loop — jump back instantly when near the edges
-        let loopTimeout: ReturnType<typeof setTimeout> | null = null
-        const handleLoop = () => {
-            if (loopTimeout) return
-            loopTimeout = setTimeout(() => {
-                const scrollY = window.scrollY
-                const maxScroll = document.documentElement.scrollHeight - window.innerHeight
-                const oneSet = maxScroll / 3
-                if (scrollY > oneSet * 2) {
-                    document.documentElement.style.scrollBehavior = "auto"
-                    window.scrollTo({ top: scrollY - oneSet, behavior: "instant" as ScrollBehavior })
-                    document.documentElement.style.scrollBehavior = ""
-                }
-                if (scrollY < oneSet * 0.3) {
-                    document.documentElement.style.scrollBehavior = "auto"
-                    window.scrollTo({ top: scrollY + oneSet, behavior: "instant" as ScrollBehavior })
-                    document.documentElement.style.scrollBehavior = ""
-                }
-                loopTimeout = null
-            }, 50)
+        const onTouchMove = (e: TouchEvent) => {
+            if (overlayOpen.current) return
+            e.preventDefault()
+            const now = Date.now()
+            const dt = now - lastTouchTime.current
+            const dy = e.touches[0].clientY - lastTouchY.current
+            if (dt > 0) velocityY.current = dy / dt
+            lastTouchY.current = e.touches[0].clientY
+            lastTouchTime.current = now
+            const diff = touchStartY.current - e.touches[0].clientY
+            applyScroll(touchStartScroll.current + diff)
+            updateVisuals(scrollY.current)
         }
 
-        window.addEventListener("scroll", update, { passive: true })
-        window.addEventListener("scroll", handleLoop, { passive: true })
-        update()
+        const onTouchEnd = () => {
+            if (overlayOpen.current) return
+            let velocity = velocityY.current * 80
+            const decay = 0.92
+
+            const momentum = () => {
+                if (Math.abs(velocity) < 0.3) return
+                applyScroll(scrollY.current - velocity)
+                updateVisuals(scrollY.current)
+                velocity *= decay
+                animFrameRef.current = requestAnimationFrame(momentum)
+            }
+            animFrameRef.current = requestAnimationFrame(momentum)
+        }
+
+        window.addEventListener("touchstart", onTouchStart, { passive: true })
+        window.addEventListener("touchmove", onTouchMove, { passive: false })
+        window.addEventListener("touchend", onTouchEnd, { passive: true })
         return () => {
-            window.removeEventListener("scroll", update)
-            window.removeEventListener("scroll", handleLoop)
-            if (loopTimeout) clearTimeout(loopTimeout)
+            window.removeEventListener("touchstart", onTouchStart)
+            window.removeEventListener("touchmove", onTouchMove)
+            window.removeEventListener("touchend", onTouchEnd)
         }
     }, [mounted, isMobile])
 
@@ -118,10 +181,9 @@ export default function SelectedWork_Mobile_Images() {
         const centerFirst = () => {
             const el = itemRefs.current[baseWorks.length]
             if (!el) return
-            const svh = window.visualViewport?.height ?? window.innerHeight
-            const rect = el.getBoundingClientRect()
-            const offset = rect.top + window.scrollY - svh / 2 + rect.height / 2
-            window.scrollTo({ top: offset, behavior: "instant" as ScrollBehavior })
+            const target = el.offsetTop - screenH.current / 2 + el.offsetHeight / 2
+            applyScroll(target)
+            updateVisuals(target)
         }
         setTimeout(centerFirst, 200)
         window.addEventListener("loadingdone", centerFirst, { once: true })
@@ -131,40 +193,57 @@ export default function SelectedWork_Mobile_Images() {
     if (!mounted || !isMobile) return null
 
     return (
-        <div style={{ width: "100%", paddingTop: "50svh", paddingBottom: "50svh" }}>
-            <div style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: `${ITEM_GAP}px`,
-                alignItems: "center",
-            }}>
-                {works.map((_, i) => {
-                    const work = baseWorks[i % baseWorks.length]
-                    return (
-                        <div
-                            key={i}
-                            ref={(el) => (itemRefs.current[i] = el)}
-                            style={{
-                                width: IMG_WIDTH,
-                                aspectRatio: work.aspectRatio,
-                                overflow: "hidden",
-                                willChange: "transform, filter, opacity",
-                                cursor: "pointer",
-                                flexShrink: 0,
-                                transform: "scale(0.78)",
-                                filter: "blur(7px)",
-                                opacity: "0.3",
-                            }}
-                            onClick={() => { window.location.href = work.link }}
-                        >
-                            <img
-                                src={work.image}
-                                loading={i === baseWorks.length ? "eager" : "lazy"}
-                                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                            />
-                        </div>
-                    )
-                })}
+        <div style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            overflow: "hidden",
+        }}>
+            <div
+                ref={containerRef}
+                style={{ width: "100%", willChange: "transform" }}
+            >
+                <div style={{ height: screenH.current }} />
+                <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: `${ITEM_GAP}px`,
+                    alignItems: "center",
+                    pointerEvents: "auto",
+                }}>
+                    {works.map((_, i) => {
+                        const work = baseWorks[i % baseWorks.length]
+                        return (
+                            <div
+                                key={i}
+                                ref={(el) => (itemRefs.current[i] = el)}
+                                style={{
+                                    width: IMG_WIDTH,
+                                    aspectRatio: work.aspectRatio,
+                                    overflow: "hidden",
+                                    willChange: "transform, filter, opacity",
+                                    cursor: "pointer",
+                                    flexShrink: 0,
+                                    transform: "scale(0.78)",
+                                    filter: "blur(7px)",
+                                    opacity: "0.3",
+                                    backfaceVisibility: "hidden",
+                                    WebkitBackfaceVisibility: "hidden" as any,
+                                }}
+                                onClick={() => { window.location.href = work.link }}
+                            >
+                                <img
+                                    src={work.image}
+                                    loading={i === baseWorks.length ? "eager" : "lazy"}
+                                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                                />
+                            </div>
+                        )
+                    })}
+                </div>
+                <div style={{ height: screenH.current }} />
             </div>
         </div>
     )
